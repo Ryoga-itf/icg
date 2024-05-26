@@ -8,6 +8,7 @@
 #include "starBrush.h"
 #include "impressionistDoc.h"
 #include "impressionistUI.h"
+#include <cmath>
 
 extern float frand();
 
@@ -36,11 +37,19 @@ void StarBrush::BrushMove(const Point source, const Point target) {
         return;
     }
 
+    constexpr int div = 10;
+    const auto size = pDoc->getSize() / 2.0f;
     const auto alpha = pDoc->getAlpha();
 
     SetColorAlpha(source, alpha);
-    glBegin(GL_POINTS);
+    glBegin(GL_POLYGON);
     glVertex2d(target.x, target.y);
+    for (size_t i = 0; i <= div; i++) {
+        const auto radius = size / (i % 2 == 0 ? 0.5f : 1.0f);
+        const auto Ax = target.x + radius * std::cos(2 * M_PI * i / div);
+        const auto Ay = target.y + radius * std::sin(2 * M_PI * i / div);
+        glVertex2f(Ax, Ay);
+    }
     glEnd();
 }
 
