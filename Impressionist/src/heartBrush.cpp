@@ -48,8 +48,9 @@ void HeartBrush::BrushMove(const Point source, const Point target) {
         const auto t = 2 * M_PIf * i / div;
         const auto radius = size / 2.0;
         const auto Ax = target.x + radius * std::pow(std::sin(t), 3);
-        const auto Ay = target.y + radius * 0.8125f * std::cos(t) - radius * 0.3125f * std::cos(2 * t) -
-                        radius * 0.125f * std::cos(3 * t) - radius * 0.0625f * std::cos(4 * t);
+        const auto Ay =
+            target.y +
+            radius * (13 * std::cos(t) - 5 * std::cos(2 * t) - 2 * std::cos(3 * t) - 1 * std::cos(4 * t)) / 16.0f;
         glVertex2f(Ax, Ay);
     }
     glEnd();
