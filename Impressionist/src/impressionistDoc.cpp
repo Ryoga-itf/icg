@@ -8,6 +8,7 @@
 #include <FL/fl_ask.H>
 #include <algorithm>
 
+#include "heartBrush.h"
 #include "impressionistDoc.h"
 #include "impressionistUI.h"
 
@@ -48,6 +49,7 @@ ImpressionistDoc::ImpressionistDoc() {
     ImpBrush::c_pBrushes[BRUSH_CIRCLES] = new CircleBrush(this, "Circles");
     ImpBrush::c_pBrushes[BRUSH_LINES] = new LineBrush(this, "Lines");
     ImpBrush::c_pBrushes[BRUSH_STARS] = new StarBrush(this, "Stars");
+    ImpBrush::c_pBrushes[BRUSH_HEARTS] = new HeartBrush(this, "Hearts");
     ImpBrush::c_pBrushes[BRUSH_SCATTERED_POINTS] = new ScatteredPointBrush(this, "Scattered Points");
     ImpBrush::c_pBrushes[BRUSH_SCATTERED_CIRCLES] = new ScatteredCircleBrush(this, "Scattered Circles");
 
