@@ -27,6 +27,7 @@ set(Impressionist_SRC
   src/triangleBrush.cpp
   src/circleBrush.cpp
   src/lineBrush.cpp
+  src/starBrush.cpp
   src/scatteredPointBrush.cpp
   src/scatteredCircleBrush.cpp
 )
