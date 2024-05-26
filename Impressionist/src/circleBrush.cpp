@@ -45,8 +45,9 @@ void CircleBrush::BrushMove(const Point source, const Point target) {
     SetColorAlpha(source, alpha);
     glBegin(GL_POLYGON);
     for (size_t i = 0; i < div; i++) {
-        const auto Ax = target.x + radius * std::cos(2 * M_PI * i / div);
-        const auto Ay = target.y + radius * std::sin(2 * M_PI * i / div);
+        const auto t = 2 * M_PIf * i / div;
+        const auto Ax = target.x + radius * std::cos(t);
+        const auto Ay = target.y + radius * std::sin(t);
         glVertex2f(Ax, Ay);
     }
     glEnd();

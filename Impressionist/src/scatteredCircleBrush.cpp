@@ -51,8 +51,9 @@ void ScatteredCircleBrush::BrushMove(const Point source, const Point target) {
         const int cAx = target.x + std::rand() % (2 * size);
         const int cAy = target.y + std::rand() % (2 * size);
         for (size_t i = 0; i < div; i++) {
-            const auto Ax = cAx + radius * std::cos(2 * M_PI * i / div);
-            const auto Ay = cAy + radius * std::sin(2 * M_PI * i / div);
+            const auto t = 2 * M_PIf * i / div;
+            const auto Ax = cAx + radius * std::cos(t);
+            const auto Ay = cAy + radius * std::sin(t);
             glVertex2f(Ax, Ay);
         }
     }

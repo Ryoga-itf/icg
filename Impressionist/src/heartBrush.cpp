@@ -38,15 +38,15 @@ void HeartBrush::BrushMove(const Point source, const Point target) {
     }
 
     constexpr auto div = 50;
-    const auto size = pDoc->getSize() / 2.0;
+    const auto size = pDoc->getSize();
     const auto alpha = pDoc->getAlpha();
 
     SetColorAlpha(source, alpha);
     glBegin(GL_POLYGON);
 
     for (int i = 0; i < div; i++) {
-        const float t = 2 * M_PI * i / div;
-        const float radius = size;
+        const auto t = 2 * M_PIf * i / div;
+        const auto radius = size / 2.0;
         const auto Ax = target.x + radius * std::pow(std::sin(t), 3);
         const auto Ay = target.y + radius * 0.8125f * std::cos(t) - radius * 0.3125f * std::cos(2 * t) -
                         radius * 0.125f * std::cos(3 * t) - radius * 0.0625f * std::cos(4 * t);
