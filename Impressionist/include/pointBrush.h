@@ -11,7 +11,7 @@
 
 class PointBrush : public ImpBrush {
   public:
-    PointBrush(ImpressionistDoc *pDoc = NULL, char *name = NULL);
+    PointBrush(ImpressionistDoc *pDoc = NULL, const char *name = NULL);
 
     void BrushBegin(const Point source, const Point target);
     void BrushMove(const Point source, const Point target);

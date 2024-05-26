@@ -31,7 +31,7 @@ class Point {
 
 class ImpBrush {
   protected:
-    ImpBrush(ImpressionistDoc *pDoc = NULL, char *name = NULL);
+    ImpBrush(ImpressionistDoc *pDoc = NULL, const char *name = NULL);
 
   public:
     // The implementation of your brush should realize these virtual functions
@@ -48,7 +48,7 @@ class ImpBrush {
     ImpressionistDoc *GetDocument(void);
 
     // Return the name of the brush (not used in this version).
-    char *BrushName(void);
+    const char *BrushName(void);
 
     static int c_nBrushCount;     // How many brushes we have,
     static ImpBrush **c_pBrushes; // and what they are.
@@ -57,7 +57,7 @@ class ImpBrush {
     ImpressionistDoc *m_pDoc;
 
     // Brush's name (not used in this version).
-    char *m_pBrushName;
+    const char *m_pBrushName;
 };
 
 #endif

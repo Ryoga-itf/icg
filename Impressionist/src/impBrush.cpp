@@ -11,7 +11,7 @@
 int ImpBrush::c_nBrushCount = 0;
 ImpBrush **ImpBrush::c_pBrushes = NULL;
 
-ImpBrush::ImpBrush(ImpressionistDoc *pDoc, char *name) : m_pDoc(pDoc), m_pBrushName(name) {}
+ImpBrush::ImpBrush(ImpressionistDoc *pDoc, const char *name) : m_pDoc(pDoc), m_pBrushName(name) {}
 
 //---------------------------------------------------
 // Return m_pDoc, which connects the UI and brushes
@@ -21,7 +21,7 @@ ImpressionistDoc *ImpBrush::GetDocument(void) { return m_pDoc; }
 //---------------------------------------------------
 // Return the name of the current brush
 //---------------------------------------------------
-char *ImpBrush::BrushName(void) { return m_pBrushName; }
+const char *ImpBrush::BrushName(void) { return m_pBrushName; }
 
 //----------------------------------------------------
 // Set the color to paint with to the color at source,

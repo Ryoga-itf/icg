@@ -11,7 +11,7 @@
 
 extern float frand();
 
-PointBrush::PointBrush(ImpressionistDoc *pDoc, char *name) : ImpBrush(pDoc, name) {}
+PointBrush::PointBrush(ImpressionistDoc *pDoc, const char *name) : ImpBrush(pDoc, name) {}
 
 void PointBrush::BrushBegin(const Point source, const Point target) {
     ImpressionistDoc *pDoc = GetDocument();
