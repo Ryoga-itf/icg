@@ -39,10 +39,11 @@ void LineBrush::BrushMove(const Point source, const Point target) {
 
     const auto size = pDoc->getSize();
     const auto angle = pDoc->getAngle();
-    const float Ax = target.x + size * std::cos(M_PI * angle / 180);
-    const float Ay = target.y + size * std::sin(M_PI * angle / 180);
-    const float Bx = target.x - size * std::cos(M_PI * angle / 180);
-    const float By = target.y - size * std::sin(M_PI * angle / 180);
+    const auto t = M_PIf * angle / 180.f;
+    const float Ax = target.x + size * std::cos(t);
+    const float Ay = target.y + size * std::sin(t);
+    const float Bx = target.x - size * std::cos(t);
+    const float By = target.y - size * std::sin(t);
 
     const auto alpha = pDoc->getAlpha();
     SetColorAlpha(source, alpha);
