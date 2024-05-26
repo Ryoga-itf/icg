@@ -346,9 +346,9 @@ Fl_Menu_Item ImpressionistUI::menuitems[] = {
     {"&Load Image...", FL_ALT + 'l', (Fl_Callback *)ImpressionistUI::cb_load_image},
     {"&Save Image...", FL_ALT + 's', (Fl_Callback *)ImpressionistUI::cb_save_image},
     {"&Brushes...", FL_ALT + 'b', (Fl_Callback *)ImpressionistUI::cb_brushes},
+    {"&Filter Kernel...", FL_CTRL + 'f', (Fl_Callback *)ImpressionistUI::cb_filter_kernel},
     {"&Copy Original Image to Canvas", FL_CTRL + 'v', (Fl_Callback *)ImpressionistUI::cb_copy_image_to_canvas},
     {"&Clear Canvas", FL_ALT + 'c', (Fl_Callback *)ImpressionistUI::cb_clear_canvas, 0, FL_MENU_DIVIDER},
-    // Filter Kernelé¿èK
 
     {"&Quit", FL_ALT + 'q', (Fl_Callback *)ImpressionistUI::cb_exit},
     {0},
