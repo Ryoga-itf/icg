@@ -28,6 +28,7 @@ set(Impressionist_SRC
   src/circleBrush.cpp
   src/lineBrush.cpp
   src/scatteredPointBrush.cpp
+  src/scatteredCircleBrush.cpp
 )
 
 add_executable(Impressionist ${Impressionist_SRC})

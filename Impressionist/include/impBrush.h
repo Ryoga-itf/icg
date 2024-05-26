@@ -16,6 +16,7 @@ enum {
     BRUSH_CIRCLES,
     BRUSH_LINES,
     BRUSH_SCATTERED_POINTS,
+    BRUSH_SCATTERED_CIRCLES,
     NUM_BRUSH_TYPE // Make sure this stays at the end!
 };
 
