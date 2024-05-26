@@ -10,9 +10,9 @@
 #include <stdlib.h>
 
 // Each brush type has an associated constant.
-// ƒuƒ‰ƒV’Ç‰Á
 enum {
     BRUSH_POINTS = 0,
+    BRUSH_TRIANGLES,
     NUM_BRUSH_TYPE // Make sure this stays at the end!
 };
 

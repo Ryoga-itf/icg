@@ -344,7 +344,7 @@ Fl_Menu_Item ImpressionistUI::menuitems[] = {
 // Brush choice menu definition
 Fl_Menu_Item ImpressionistUI::brushTypeMenu[NUM_BRUSH_TYPE + 1] = {
     {"Points", FL_ALT + 'p', (Fl_Callback *)ImpressionistUI::cb_brushChoice, (void *)BRUSH_POINTS},
-    // ƒuƒ‰ƒV’Ç‰Á
+    {"Triangles", FL_ALT + 't', (Fl_Callback *)ImpressionistUI::cb_brushChoice, (void *)BRUSH_TRIANGLES},
     {0}};
 
 //----------------------------------------------------

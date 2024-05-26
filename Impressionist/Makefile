@@ -12,7 +12,17 @@ INC = -I$(FLTK) -I/usr/include -I/home/ryoga/workspace/repos/github.com/Ryoga-it
 CFLAGS = `$(FLTK)/fltk-config --cxxflags`
 RESINC = 
 LIBDIR = -L$(FLTK)/lib -L/usr/lib/x86_64-linux-gnu
-LIB = $(FLTK)/lib/libfltk_images.a $(FLTK)/lib/libfltk_gl.a $(FLTK)/lib/libfltk_forms.a $(FLTK)/lib/libfltk.a $(FLTK)/lib/libfltk_z.a $(FLTK)/lib/libfltk_jpeg.a $(FLTK)/lib/libfltk_png.a /usr/lib/x86_64-linux-gnu/libpng16.so.16 /usr/lib/x86_64-linux-gnu/libz.so /usr/lib/x86_64-linux-gnu/libGL.so /usr/lib/x86_64-linux-gnu/libGLU.so.1
+LIB = $(FLTK)/lib/libfltk_images.a \
+			$(FLTK)/lib/libfltk_gl.a \
+			$(FLTK)/lib/libfltk_forms.a \
+			$(FLTK)/lib/libfltk.a \
+			$(FLTK)/lib/libfltk_z.a \
+			$(FLTK)/lib/libfltk_jpeg.a \
+			$(FLTK)/lib/libfltk_png.a \
+			/usr/lib/x86_64-linux-gnu/libpng16.so.16 \
+			/usr/lib/x86_64-linux-gnu/libz.so \
+			/usr/lib/x86_64-linux-gnu/libGL.so \
+			/usr/lib/x86_64-linux-gnu/libGLU.so.1
 LDFLAGS = `$(FLTK)/fltk-config --ldstaticflags`
 
 INC_DEBUG = $(INC)
@@ -37,9 +47,27 @@ OBJDIR_RELEASE = obj/Release
 DEP_RELEASE = 
 OUT_RELEASE = bin/Release/Impressionist
 
-OBJ_DEBUG = $(OBJDIR_DEBUG)/pointBrush.o $(OBJDIR_DEBUG)/paintView.o $(OBJDIR_DEBUG)/originalView.o $(OBJDIR_DEBUG)/impressionistUI.o $(OBJDIR_DEBUG)/FltDesignUI.o $(OBJDIR_DEBUG)/impressionistDoc.o $(OBJDIR_DEBUG)/impressionist.o $(OBJDIR_DEBUG)/impBrush.o $(OBJDIR_DEBUG)/bitmap.o
+OBJ_DEBUG = $(OBJDIR_DEBUG)/pointBrush.o \
+						$(OBJDIR_DEBUG)/triangleBrush.o \
+						$(OBJDIR_DEBUG)/paintView.o \
+						$(OBJDIR_DEBUG)/originalView.o \
+						$(OBJDIR_DEBUG)/impressionistUI.o \
+						$(OBJDIR_DEBUG)/FltDesignUI.o \
+						$(OBJDIR_DEBUG)/impressionistDoc.o \
+						$(OBJDIR_DEBUG)/impressionist.o \
+						$(OBJDIR_DEBUG)/impBrush.o \
+						$(OBJDIR_DEBUG)/bitmap.o
 
-OBJ_RELEASE = $(OBJDIR_RELEASE)/pointBrush.o $(OBJDIR_RELEASE)/paintView.o $(OBJDIR_RELEASE)/originalView.o $(OBJDIR_RELEASE)/impressionistUI.o $(OBJDIR_RELEASE)/FltDesignUI.o $(OBJDIR_RELEASE)/impressionistDoc.o $(OBJDIR_RELEASE)/impressionist.o $(OBJDIR_RELEASE)/impBrush.o $(OBJDIR_RELEASE)/bitmap.o
+OBJ_RELEASE = $(OBJDIR_RELEASE)/pointBrush.o \
+							$(OBJDIR_RELEASE)/triangleBrush.o \
+							$(OBJDIR_RELEASE)/paintView.o \
+							$(OBJDIR_RELEASE)/originalView.o \
+							$(OBJDIR_RELEASE)/impressionistUI.o \
+							$(OBJDIR_RELEASE)/FltDesignUI.o \
+							$(OBJDIR_RELEASE)/impressionistDoc.o \
+							$(OBJDIR_RELEASE)/impressionist.o \
+							$(OBJDIR_RELEASE)/impBrush.o \
+							$(OBJDIR_RELEASE)/bitmap.o
 
 all: debug release
 
@@ -58,6 +86,9 @@ out_debug: before_debug $(OBJ_DEBUG) $(DEP_DEBUG)
 
 $(OBJDIR_DEBUG)/pointBrush.o: src/pointBrush.cpp
 	$(CXX) $(CFLAGS_DEBUG) $(INC_DEBUG) -c src/pointBrush.cpp -o $(OBJDIR_DEBUG)/pointBrush.o
+
+$(OBJDIR_DEBUG)/triangleBrush.o: src/triangleBrush.cpp
+	$(CXX) $(CFLAGS_DEBUG) $(INC_DEBUG) -c src/triangleBrush.cpp -o $(OBJDIR_DEBUG)/triangleBrush.o
 
 $(OBJDIR_DEBUG)/paintView.o: src/paintView.cpp
 	$(CXX) $(CFLAGS_DEBUG) $(INC_DEBUG) -c src/paintView.cpp -o $(OBJDIR_DEBUG)/paintView.o
@@ -101,6 +132,9 @@ out_release: before_release $(OBJ_RELEASE) $(DEP_RELEASE)
 
 $(OBJDIR_RELEASE)/pointBrush.o: src/pointBrush.cpp
 	$(CXX) $(CFLAGS_RELEASE) $(INC_RELEASE) -c src/pointBrush.cpp -o $(OBJDIR_RELEASE)/pointBrush.o
+
+$(OBJDIR_RELEASE)/pointBrush.o: src/triangleBrush.cpp
+	$(CXX) $(CFLAGS_RELEASE) $(INC_RELEASE) -c src/triangleBrush.cpp -o $(OBJDIR_RELEASE)/triangleBrush.o
 
 $(OBJDIR_RELEASE)/paintView.o: src/paintView.cpp
 	$(CXX) $(CFLAGS_RELEASE) $(INC_RELEASE) -c src/paintView.cpp -o $(OBJDIR_RELEASE)/paintView.o
