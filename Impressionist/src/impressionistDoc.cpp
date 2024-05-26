@@ -6,6 +6,7 @@
 //
 
 #include <FL/fl_ask.H>
+#include <algorithm>
 
 #include "impressionistDoc.h"
 #include "impressionistUI.h"
@@ -212,23 +213,9 @@ void ImpressionistDoc::applyFilter(const unsigned char *sourceBuffer, int srcBuf
             }
         }
 
-        if (bufR > 255) {
-            bufR = 255;
-        } else if (bufR < 0) {
-            bufR = 0;
-        }
-
-        if (bufG > 255) {
-            bufG = 255;
-        } else if (bufG < 0) {
-            bufG = 0;
-        }
-
-        if (bufB > 255) {
-            bufB = 255;
-        } else if (bufB < 0) {
-            bufB = 0;
-        }
+        bufR = std::clamp(bufR, 0.0, 255.0);
+        bufG = std::clamp(bufG, 0.0, 255.0);
+        bufB = std::clamp(bufB, 0.0, 255.0);
 
         destBuffer[3 * (i + srcBufferWidth * j)] = (unsigned char)bufR;
         destBuffer[3 * (i + srcBufferWidth * j) + 1] = (unsigned char)bufG;
