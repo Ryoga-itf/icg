@@ -45,8 +45,7 @@ class ImpressionistUI {
     Fl_Choice *m_BrushTypeChoice;
 
     Fl_Slider *m_BrushSizeSlider;
-    // 実習
-    // 角度とα値のスライダー
+    Fl_Slider *m_BrushAngleSlider;
 
     Fl_Button *m_ClearCanvasButton;
 
@@ -60,10 +59,10 @@ class ImpressionistUI {
     // Interface to get attribute
 
     int getSize();
-    // 実習
+    int getAngle();
 
     void setSize(int size);
-    // 実習
+    void setAngle(int angle);
 
     // Callbacks for the image filter dialogue (different from
     // the other callbacks because they aren't static)
@@ -79,7 +78,7 @@ class ImpressionistUI {
 
     // All attributes here
     int m_nSize;
-    // 実習
+    int m_nAngle;
 
     // These attributes are set by the filter kernel UI
     double fltKernel[FLT_WIDTH * FLT_HEIGHT]; // the kernel of the image filter
@@ -104,11 +103,9 @@ class ImpressionistUI {
     static void cb_about(Fl_Menu_ *o, void *v);
     static void cb_brushChoice(Fl_Widget *o, void *v);
     static void cb_clear_canvas_button(Fl_Widget *o, void *v);
-    static void cb_copy_image_to_canvas(Fl_Menu_ *o, void *v); // ３回目実習　FilterKernel
+    static void cb_copy_image_to_canvas(Fl_Menu_ *o, void *v);
     static void cb_sizeSlides(Fl_Widget *o, void *v);
-
-    // 実習
-    // 角度とα値コールバック
+    static void cb_angleSlides(Fl_Widget *o, void *v);
 };
 
 #endif

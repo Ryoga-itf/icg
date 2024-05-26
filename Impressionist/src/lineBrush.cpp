@@ -8,6 +8,7 @@
 #include "lineBrush.h"
 #include "impressionistDoc.h"
 #include "impressionistUI.h"
+#include <cmath>
 
 extern float frand();
 
@@ -31,17 +32,23 @@ void LineBrush::BrushMove(const Point source, const Point target) {
     ImpressionistDoc *pDoc = GetDocument();
     ImpressionistUI *dlg = pDoc->m_pUI;
 
-    // スライダーつけたあと
-
     if (pDoc == NULL) {
         printf("LineBrush::BrushMove  document is NULL\n");
         return;
     }
 
+    const auto size = pDoc->getSize();
+    const auto angle = pDoc->getAngle();
+    const float Ax = target.x + size * std::cos(M_PI * angle / 180);
+    const float Ay = target.y + size * std::sin(M_PI * angle / 180);
+    const float Bx = target.x - size * std::cos(M_PI * angle / 180);
+    const float By = target.y - size * std::sin(M_PI * angle / 180);
+
     // SetColorAlpha( source, alpha );
     SetColor(source);
-    glBegin(GL_POINTS);
-    glVertex2d(target.x, target.y);
+    glBegin(GL_LINES);
+    glVertex2f(Ax, Ay);
+    glVertex2f(Bx, By);
     glEnd();
 }
 

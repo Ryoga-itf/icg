@@ -70,6 +70,11 @@ void ImpressionistDoc::setBrushType(int type) { m_pCurrentBrush = ImpBrush::c_pB
 int ImpressionistDoc::getSize() { return m_pUI->getSize(); }
 
 //---------------------------------------------------------
+// Returns the angle of the brush.
+//---------------------------------------------------------
+int ImpressionistDoc::getAngle() { return m_pUI->getAngle(); }
+
+//---------------------------------------------------------
 // Load the specified image
 // This is called by the UI when the load image button is
 // pressed.
