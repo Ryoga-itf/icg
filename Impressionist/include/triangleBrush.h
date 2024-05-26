@@ -1,7 +1,7 @@
 //
 // triangleBrush.h
 //
-// The header file for Point Brush.
+// The header file for Triangle Brush.
 //
 
 #ifndef TRIANGLEBRUSH_H

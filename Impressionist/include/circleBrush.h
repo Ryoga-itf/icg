@@ -1,7 +1,7 @@
 //
 // circleBrush.h
 //
-// The header file for Point Brush.
+// The header file for Circle Brush.
 //
 
 #ifndef CIRCLEBRUSH_H
