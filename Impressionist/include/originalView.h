@@ -20,23 +20,19 @@
 
 class ImpressionistDoc;
 
-class OriginalView : public Fl_Gl_Window
-{
-public:
-	OriginalView(int x, int y, int w, int h, const char *l);
-	
-	void draw();
-	void refresh();
+class OriginalView : public Fl_Gl_Window {
+  public:
+    OriginalView(int x, int y, int w, int h, const char *l);
 
-	void resizeWindow(int width, int height);
+    void draw();
+    void refresh();
 
-	ImpressionistDoc*	m_pDoc;
+    void resizeWindow(int width, int height);
 
-private:
-	int	m_nWindowWidth, 
-		m_nWindowHeight;
+    ImpressionistDoc *m_pDoc;
 
+  private:
+    int m_nWindowWidth, m_nWindowHeight;
 };
 
 #endif
-

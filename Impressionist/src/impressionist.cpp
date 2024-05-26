@@ -3,51 +3,41 @@
 //
 // The main driver program for the other parts. We have two major components,
 // UI and Doc.
-// They do have a link to each other as their member such that they can 
+// They do have a link to each other as their member such that they can
 // communicate.
 //
 
-#include <stdio.h>
-
 #include <FL/Fl.H>
-#include <FL/Fl_Window.H>
 #include <FL/Fl_Box.H>
 #include <FL/Fl_Shared_Image.H>
+#include <FL/Fl_Window.H>
 
-#include "impressionistUI.h"
 #include "impressionistDoc.h"
+#include "impressionistUI.h"
 
 ImpressionistUI *impUI;
 ImpressionistDoc *impDoc;
 
-int main(int	argc, 
-		 char**	argv) 
-{
-	impDoc = new ImpressionistDoc();
+int main(int argc, char **argv) {
+    impDoc = new ImpressionistDoc();
 
-	// Create the UI
-	impUI = new ImpressionistUI();
+    // Create the UI
+    impUI = new ImpressionistUI();
 
-	fl_register_images();
+    fl_register_images();
 
-	// Set the impDoc which is used as the bridge between UI and brushes
-	impUI->setDocument(impDoc);
-	impDoc->setUI(impUI);
+    // Set the impDoc which is used as the bridge between UI and brushes
+    impUI->setDocument(impDoc);
+    impDoc->setUI(impUI);
 
-	Fl::visual(FL_DOUBLE|FL_INDEX);
+    Fl::visual(FL_DOUBLE | FL_INDEX);
 
-	impUI->show();
+    impUI->show();
 
-	return Fl::run();
+    return Fl::run();
 }
 
 // global functions
-float frand()
-{
-	return (float)rand()/RAND_MAX;
-}
+float frand() { return (float)rand() / RAND_MAX; }
 
-int irand(int max)
-{
-	return rand()%max;
-}
+int irand(int max) { return rand() % max; }

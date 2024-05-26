@@ -15,35 +15,25 @@
 
 class ImpressionistDoc;
 
-class PaintView : public Fl_Gl_Window
-{
-public:
-	PaintView(int x, int y, int w, int h, const char* l);
-	void draw();
-	int handle(int event);
+class PaintView : public Fl_Gl_Window {
+  public:
+    PaintView(int x, int y, int w, int h, const char *l);
+    void draw();
+    int handle(int event);
 
-	void refresh();
-	
-	void resizeWindow(int width, int height);
+    void refresh();
 
-	void SaveCurrentContent();
+    void resizeWindow(int width, int height);
 
-	void RestoreContent();
+    void SaveCurrentContent();
 
-	ImpressionistDoc *m_pDoc;
+    void RestoreContent();
 
-private:
-	GLvoid* m_pPaintBitstart;
-	int		m_nDrawWidth,
-			m_nDrawHeight,
-			m_nStartRow, 
-			m_nEndRow,
-			m_nStartCol, 
-			m_nEndCol,
-			m_nWindowWidth, 
-			m_nWindowHeight;
+    ImpressionistDoc *m_pDoc;
 
+  private:
+    GLvoid *m_pPaintBitstart;
+    int m_nDrawWidth, m_nDrawHeight, m_nStartRow, m_nEndRow, m_nStartCol, m_nEndCol, m_nWindowWidth, m_nWindowHeight;
 };
 
 #endif
-
