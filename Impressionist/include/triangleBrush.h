@@ -11,7 +11,7 @@
 
 class TriangleBrush : public ImpBrush {
   public:
-    TriangleBrush(ImpressionistDoc *pDoc = NULL, char *name = NULL);
+    TriangleBrush(ImpressionistDoc *pDoc = NULL, const char *name = NULL);
 
     void BrushBegin(const Point source, const Point target);
     void BrushMove(const Point source, const Point target);

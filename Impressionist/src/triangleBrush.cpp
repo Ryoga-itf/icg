@@ -12,7 +12,7 @@
 
 extern float frand();
 
-TriangleBrush::TriangleBrush(ImpressionistDoc *pDoc, char *name) : ImpBrush(pDoc, name) {}
+TriangleBrush::TriangleBrush(ImpressionistDoc *pDoc, const char *name) : ImpBrush(pDoc, name) {}
 
 void TriangleBrush::BrushBegin(const Point source, const Point target) {
     ImpressionistDoc *pDoc = GetDocument();

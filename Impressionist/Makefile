@@ -133,7 +133,7 @@ out_release: before_release $(OBJ_RELEASE) $(DEP_RELEASE)
 $(OBJDIR_RELEASE)/pointBrush.o: src/pointBrush.cpp
 	$(CXX) $(CFLAGS_RELEASE) $(INC_RELEASE) -c src/pointBrush.cpp -o $(OBJDIR_RELEASE)/pointBrush.o
 
-$(OBJDIR_RELEASE)/pointBrush.o: src/triangleBrush.cpp
+$(OBJDIR_RELEASE)/triangleBrush.o: src/triangleBrush.cpp
 	$(CXX) $(CFLAGS_RELEASE) $(INC_RELEASE) -c src/triangleBrush.cpp -o $(OBJDIR_RELEASE)/triangleBrush.o
 
 $(OBJDIR_RELEASE)/paintView.o: src/paintView.cpp
