@@ -8,7 +8,7 @@ AR = ar
 LD = g++
 WINDRES = windres
 
-INC = -I$(FLTK) -I/usr/include
+INC = -I$(FLTK) -I/usr/include -I/home/ryoga/workspace/repos/github.com/Ryoga-itf/icg/Impressionist/include
 CFLAGS = `$(FLTK)/fltk-config --cxxflags`
 RESINC = 
 LIBDIR = -L$(FLTK)/lib -L/usr/lib/x86_64-linux-gnu
@@ -56,32 +56,32 @@ debug: before_debug out_debug after_debug
 out_debug: before_debug $(OBJ_DEBUG) $(DEP_DEBUG)
 	# $(LD) $(LIBDIR_DEBUG) -o $(OUT_DEBUG) $(OBJ_DEBUG)  $(LDFLAGS_DEBUG) $(LIB_DEBUG)
 
-$(OBJDIR_DEBUG)/pointBrush.o: pointBrush.cpp
-	$(CXX) $(CFLAGS_DEBUG) $(INC_DEBUG) -c pointBrush.cpp -o $(OBJDIR_DEBUG)/pointBrush.o
+$(OBJDIR_DEBUG)/pointBrush.o: src/pointBrush.cpp
+	$(CXX) $(CFLAGS_DEBUG) $(INC_DEBUG) -c src/pointBrush.cpp -o $(OBJDIR_DEBUG)/pointBrush.o
 
-$(OBJDIR_DEBUG)/paintView.o: paintView.cpp
-	$(CXX) $(CFLAGS_DEBUG) $(INC_DEBUG) -c paintView.cpp -o $(OBJDIR_DEBUG)/paintView.o
+$(OBJDIR_DEBUG)/paintView.o: src/paintView.cpp
+	$(CXX) $(CFLAGS_DEBUG) $(INC_DEBUG) -c src/paintView.cpp -o $(OBJDIR_DEBUG)/paintView.o
 
-$(OBJDIR_DEBUG)/originalView.o: originalView.cpp
-	$(CXX) $(CFLAGS_DEBUG) $(INC_DEBUG) -c originalView.cpp -o $(OBJDIR_DEBUG)/originalView.o
+$(OBJDIR_DEBUG)/originalView.o: src/originalView.cpp
+	$(CXX) $(CFLAGS_DEBUG) $(INC_DEBUG) -c src/originalView.cpp -o $(OBJDIR_DEBUG)/originalView.o
 
-$(OBJDIR_DEBUG)/impressionistUI.o: impressionistUI.cpp
-	$(CXX) $(CFLAGS_DEBUG) $(INC_DEBUG) -c impressionistUI.cpp -o $(OBJDIR_DEBUG)/impressionistUI.o
+$(OBJDIR_DEBUG)/impressionistUI.o: src/impressionistUI.cpp
+	$(CXX) $(CFLAGS_DEBUG) $(INC_DEBUG) -c src/impressionistUI.cpp -o $(OBJDIR_DEBUG)/impressionistUI.o
 
-$(OBJDIR_DEBUG)/FltDesignUI.o: FltDesignUI.cpp
-	$(CXX) $(CFLAGS_DEBUG) $(INC_DEBUG) -c FltDesignUI.cpp -o $(OBJDIR_DEBUG)/FltDesignUI.o
+$(OBJDIR_DEBUG)/FltDesignUI.o: src/FltDesignUI.cpp
+	$(CXX) $(CFLAGS_DEBUG) $(INC_DEBUG) -c src/FltDesignUI.cpp -o $(OBJDIR_DEBUG)/FltDesignUI.o
 
-$(OBJDIR_DEBUG)/impressionistDoc.o: impressionistDoc.cpp
-	$(CXX) $(CFLAGS_DEBUG) $(INC_DEBUG) -c impressionistDoc.cpp -o $(OBJDIR_DEBUG)/impressionistDoc.o
+$(OBJDIR_DEBUG)/impressionistDoc.o: src/impressionistDoc.cpp
+	$(CXX) $(CFLAGS_DEBUG) $(INC_DEBUG) -c src/impressionistDoc.cpp -o $(OBJDIR_DEBUG)/impressionistDoc.o
 
-$(OBJDIR_DEBUG)/impressionist.o: impressionist.cpp
-	$(CXX) $(CFLAGS_DEBUG) $(INC_DEBUG) -c impressionist.cpp -o $(OBJDIR_DEBUG)/impressionist.o
+$(OBJDIR_DEBUG)/impressionist.o: src/impressionist.cpp
+	$(CXX) $(CFLAGS_DEBUG) $(INC_DEBUG) -c src/impressionist.cpp -o $(OBJDIR_DEBUG)/impressionist.o
 
-$(OBJDIR_DEBUG)/impBrush.o: impBrush.cpp
-	$(CXX) $(CFLAGS_DEBUG) $(INC_DEBUG) -c impBrush.cpp -o $(OBJDIR_DEBUG)/impBrush.o
+$(OBJDIR_DEBUG)/impBrush.o: src/impBrush.cpp
+	$(CXX) $(CFLAGS_DEBUG) $(INC_DEBUG) -c src/impBrush.cpp -o $(OBJDIR_DEBUG)/impBrush.o
 
-$(OBJDIR_DEBUG)/bitmap.o: bitmap.cpp
-	$(CXX) $(CFLAGS_DEBUG) $(INC_DEBUG) -c bitmap.cpp -o $(OBJDIR_DEBUG)/bitmap.o
+$(OBJDIR_DEBUG)/bitmap.o: src/bitmap.cpp
+	$(CXX) $(CFLAGS_DEBUG) $(INC_DEBUG) -c src/bitmap.cpp -o $(OBJDIR_DEBUG)/bitmap.o
 
 clean_debug: 
 	rm -f $(OBJ_DEBUG) $(OUT_DEBUG)
@@ -99,32 +99,32 @@ release: before_release out_release after_release
 out_release: before_release $(OBJ_RELEASE) $(DEP_RELEASE)
 	$(LD) $(LIBDIR_RELEASE) -o $(OUT_RELEASE) $(OBJ_RELEASE)  $(LDFLAGS_RELEASE) $(LIB_RELEASE)
 
-$(OBJDIR_RELEASE)/pointBrush.o: pointBrush.cpp
-	$(CXX) $(CFLAGS_RELEASE) $(INC_RELEASE) -c pointBrush.cpp -o $(OBJDIR_RELEASE)/pointBrush.o
+$(OBJDIR_RELEASE)/pointBrush.o: src/pointBrush.cpp
+	$(CXX) $(CFLAGS_RELEASE) $(INC_RELEASE) -c src/pointBrush.cpp -o $(OBJDIR_RELEASE)/pointBrush.o
 
-$(OBJDIR_RELEASE)/paintView.o: paintView.cpp
-	$(CXX) $(CFLAGS_RELEASE) $(INC_RELEASE) -c paintView.cpp -o $(OBJDIR_RELEASE)/paintView.o
+$(OBJDIR_RELEASE)/paintView.o: src/paintView.cpp
+	$(CXX) $(CFLAGS_RELEASE) $(INC_RELEASE) -c src/paintView.cpp -o $(OBJDIR_RELEASE)/paintView.o
 
-$(OBJDIR_RELEASE)/originalView.o: originalView.cpp
-	$(CXX) $(CFLAGS_RELEASE) $(INC_RELEASE) -c originalView.cpp -o $(OBJDIR_RELEASE)/originalView.o
+$(OBJDIR_RELEASE)/originalView.o: src/originalView.cpp
+	$(CXX) $(CFLAGS_RELEASE) $(INC_RELEASE) -c src/originalView.cpp -o $(OBJDIR_RELEASE)/originalView.o
 
-$(OBJDIR_RELEASE)/impressionistUI.o: impressionistUI.cpp
-	$(CXX) $(CFLAGS_RELEASE) $(INC_RELEASE) -c impressionistUI.cpp -o $(OBJDIR_RELEASE)/impressionistUI.o
+$(OBJDIR_RELEASE)/impressionistUI.o: src/impressionistUI.cpp
+	$(CXX) $(CFLAGS_RELEASE) $(INC_RELEASE) -c src/impressionistUI.cpp -o $(OBJDIR_RELEASE)/impressionistUI.o
 
-$(OBJDIR_RELEASE)/FltDesignUI.o: FltDesignUI.cpp
-	$(CXX) $(CFLAGS_RELEASE) $(INC_RELEASE) -c FltDesignUI.cpp -o $(OBJDIR_RELEASE)/FltDesignUI.o
+$(OBJDIR_RELEASE)/FltDesignUI.o: src/FltDesignUI.cpp
+	$(CXX) $(CFLAGS_RELEASE) $(INC_RELEASE) -c src/FltDesignUI.cpp -o $(OBJDIR_RELEASE)/FltDesignUI.o
 
-$(OBJDIR_RELEASE)/impressionistDoc.o: impressionistDoc.cpp
-	$(CXX) $(CFLAGS_RELEASE) $(INC_RELEASE) -c impressionistDoc.cpp -o $(OBJDIR_RELEASE)/impressionistDoc.o
+$(OBJDIR_RELEASE)/impressionistDoc.o: src/impressionistDoc.cpp
+	$(CXX) $(CFLAGS_RELEASE) $(INC_RELEASE) -c src/impressionistDoc.cpp -o $(OBJDIR_RELEASE)/impressionistDoc.o
 
-$(OBJDIR_RELEASE)/impressionist.o: impressionist.cpp
-	$(CXX) $(CFLAGS_RELEASE) $(INC_RELEASE) -c impressionist.cpp -o $(OBJDIR_RELEASE)/impressionist.o
+$(OBJDIR_RELEASE)/impressionist.o: src/impressionist.cpp
+	$(CXX) $(CFLAGS_RELEASE) $(INC_RELEASE) -c src/impressionist.cpp -o $(OBJDIR_RELEASE)/impressionist.o
 
-$(OBJDIR_RELEASE)/impBrush.o: impBrush.cpp
-	$(CXX) $(CFLAGS_RELEASE) $(INC_RELEASE) -c impBrush.cpp -o $(OBJDIR_RELEASE)/impBrush.o
+$(OBJDIR_RELEASE)/impBrush.o: src/impBrush.cpp
+	$(CXX) $(CFLAGS_RELEASE) $(INC_RELEASE) -c src/impBrush.cpp -o $(OBJDIR_RELEASE)/impBrush.o
 
-$(OBJDIR_RELEASE)/bitmap.o: bitmap.cpp
-	$(CXX) $(CFLAGS_RELEASE) $(INC_RELEASE) -c bitmap.cpp -o $(OBJDIR_RELEASE)/bitmap.o
+$(OBJDIR_RELEASE)/bitmap.o: src/bitmap.cpp
+	$(CXX) $(CFLAGS_RELEASE) $(INC_RELEASE) -c src/bitmap.cpp -o $(OBJDIR_RELEASE)/bitmap.o
 
 clean_release: 
 	rm -f $(OBJ_RELEASE) $(OUT_RELEASE)
