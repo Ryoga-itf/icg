@@ -1,6 +1,6 @@
-
-
 WORKDIR = `pwd`
+
+FLTK=/home/ryoga/workspace/univ/icg/fltk-1.3.0
 
 CC = gcc
 CXX = g++
@@ -8,12 +8,12 @@ AR = ar
 LD = g++
 WINDRES = windres
 
-INC = -I/home/sxxxxxxx/Desktop/icg_linux/fltk-1.3.0 -I/usr/include 
-CFLAGS = `/home/sxxxxxxx/Desktop/icg_linux/fltk-1.3.0/fltk-config --cxxflags` 
+INC = -I$(FLTK) -I/usr/include
+CFLAGS = `$(FLTK)/fltk-config --cxxflags`
 RESINC = 
-LIBDIR = -L//home/sxxxxxxx/Desktop/icg_linux/fltk-1.3.0/lib -L/usr/lib/x86_64-linux-gnu
-LIB = /home/sxxxxxxx/Desktop/icg_linux/fltk-1.3.0/lib/libfltk_images.a /home/sxxxxxxx/Desktop/icg_linux/fltk-1.3.0/lib/libfltk_gl.a /home/sxxxxxxx/Desktop/icg_linux/fltk-1.3.0/lib/libfltk_forms.a /home/sxxxxxxx/Desktop/icg_linux/fltk-1.3.0/lib/libfltk.a /home/sxxxxxxx/Desktop/icg_linux/fltk-1.3.0/lib/libfltk_z.a /home/sxxxxxxx/Desktop/icg_linux/fltk-1.3.0/lib/libfltk_jpeg.a /home/sxxxxxxx/Desktop/icg_linux/fltk-1.3.0/lib/libfltk_png.a /usr/lib/x86_64-linux-gnu/libpng12.so.0 /usr/lib/x86_64-linux-gnu/libz.so /usr/lib/x86_64-linux-gnu/libGL.so /usr/lib/x86_64-linux-gnu/libGLU.so.1
-LDFLAGS = `/home/sxxxxxxx/Desktop/icg_linux/fltk-1.3.0/fltk-config --ldstaticflags`
+LIBDIR = -L$(FLTK)/lib -L/usr/lib/x86_64-linux-gnu
+LIB = $(FLTK)/lib/libfltk_images.a $(FLTK)/lib/libfltk_gl.a $(FLTK)/lib/libfltk_forms.a $(FLTK)/lib/libfltk.a $(FLTK)/lib/libfltk_z.a $(FLTK)/lib/libfltk_jpeg.a $(FLTK)/lib/libfltk_png.a /usr/lib/x86_64-linux-gnu/libpng16.so.16 /usr/lib/x86_64-linux-gnu/libz.so /usr/lib/x86_64-linux-gnu/libGL.so /usr/lib/x86_64-linux-gnu/libGLU.so.1
+LDFLAGS = `$(FLTK)/fltk-config --ldstaticflags`
 
 INC_DEBUG = $(INC)
 CFLAGS_DEBUG = $(CFLAGS) -g
@@ -54,7 +54,7 @@ after_debug:
 debug: before_debug out_debug after_debug
 
 out_debug: before_debug $(OBJ_DEBUG) $(DEP_DEBUG)
-	$(LD) $(LIBDIR_DEBUG) -o $(OUT_DEBUG) $(OBJ_DEBUG)  $(LDFLAGS_DEBUG) $(LIB_DEBUG)
+	# $(LD) $(LIBDIR_DEBUG) -o $(OUT_DEBUG) $(OBJ_DEBUG)  $(LDFLAGS_DEBUG) $(LIB_DEBUG)
 
 $(OBJDIR_DEBUG)/pointBrush.o: pointBrush.cpp
 	$(CXX) $(CFLAGS_DEBUG) $(INC_DEBUG) -c pointBrush.cpp -o $(OBJDIR_DEBUG)/pointBrush.o
