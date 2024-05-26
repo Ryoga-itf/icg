@@ -32,6 +32,7 @@ class ImpressionistDoc {
     int getSize();               // get the UI size
     int getAngle();              // get the UI angle
     float getAlpha();            // get the UI angle
+    int getScatteredNum();       // get the UI scatteredNum
 
     // get the UI angle
     void setSize(int size); // set the UI size

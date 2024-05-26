@@ -38,14 +38,16 @@ void ScatteredCircleBrush::BrushMove(const Point source, const Point target) {
         return;
     }
 
-    constexpr auto div = 12;
     const auto alpha = pDoc->getAlpha();
     const auto size = pDoc->getSize();
+    const auto scatteredNum = pDoc->getScatteredNum();
+    constexpr auto div = 12;
     const auto radius = size / 2.0f;
 
     SetColorAlpha(source, alpha);
     glBegin(GL_POLYGON);
-    for (size_t n = 0; n < 10; n++) {
+
+    for (size_t n = 0; n < scatteredNum; n++) {
         const int cAx = target.x + std::rand() % (2 * size);
         const int cAy = target.y + std::rand() % (2 * size);
         for (size_t i = 0; i < div; i++) {

@@ -47,6 +47,7 @@ class ImpressionistUI {
     Fl_Slider *m_BrushSizeSlider;
     Fl_Slider *m_BrushAngleSlider;
     Fl_Slider *m_BrushAlphaSlider;
+    Fl_Slider *m_BrushScatteredNumSlider;
 
     Fl_Button *m_ClearCanvasButton;
 
@@ -62,10 +63,12 @@ class ImpressionistUI {
     int getSize();
     int getAngle();
     float getAlpha();
+    int getScatteredNum();
 
     void setSize(int size);
     void setAngle(int angle);
     void setAlpha(float alpha);
+    void setScatteredNum(int scattered_num);
 
     // Callbacks for the image filter dialogue (different from
     // the other callbacks because they aren't static)
@@ -83,6 +86,7 @@ class ImpressionistUI {
     int m_nSize;
     int m_nAngle;
     float m_nAlpha;
+    int m_nScatteredNum;
 
     // These attributes are set by the filter kernel UI
     double fltKernel[FLT_WIDTH * FLT_HEIGHT]; // the kernel of the image filter
@@ -111,6 +115,7 @@ class ImpressionistUI {
     static void cb_sizeSlides(Fl_Widget *o, void *v);
     static void cb_angleSlides(Fl_Widget *o, void *v);
     static void cb_alphaSlides(Fl_Widget *o, void *v);
+    static void cb_scatteredNumSlides(Fl_Widget *o, void *v);
 };
 
 #endif

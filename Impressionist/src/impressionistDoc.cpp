@@ -85,6 +85,11 @@ int ImpressionistDoc::getAngle() { return m_pUI->getAngle(); }
 float ImpressionistDoc::getAlpha() { return m_pUI->getAlpha(); }
 
 //---------------------------------------------------------
+// Returns the angle of the brush.
+//---------------------------------------------------------
+int ImpressionistDoc::getScatteredNum() { return m_pUI->getScatteredNum(); }
+//
+//---------------------------------------------------------
 // Load the specified image
 // This is called by the UI when the load image button is
 // pressed.

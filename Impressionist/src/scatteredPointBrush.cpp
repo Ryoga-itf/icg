@@ -40,13 +40,13 @@ void ScatteredPointBrush::BrushMove(const Point source, const Point target) {
 
     const auto alpha = pDoc->getAlpha();
     const auto size = pDoc->getSize();
+    const auto scatteredNum = pDoc->getScatteredNum();
 
     SetColorAlpha(source, alpha);
-
     glPointSize(1.0);
-    SetColorAlpha(source, alpha);
     glBegin(GL_POINTS);
-    for (size_t i = 0; i < 10; i++) {
+
+    for (size_t i = 0; i < scatteredNum; i++) {
         const int Ax = target.x - size / 2 + std::rand() % size;
         const int Ay = target.y - size / 2 + std::rand() % size;
         glVertex2i(Ax, Ay);

@@ -279,6 +279,15 @@ void ImpressionistUI::cb_alphaSlides(Fl_Widget *o, void *v) {
     ((ImpressionistUI *)(o->user_data()))->m_nAlpha = float(((Fl_Slider *)o)->value());
 }
 
+//-----------------------------------------------------------
+// Updates the scattered number to use from the value of the scatteredNum
+// slider
+// Called by the UI when the scatteredNum slider is moved
+//-----------------------------------------------------------
+void ImpressionistUI::cb_scatteredNumSlides(Fl_Widget *o, void *v) {
+    ((ImpressionistUI *)(o->user_data()))->m_nScatteredNum = float(((Fl_Slider *)o)->value());
+}
+
 //---------------------------------- per instance functions --------------------------------------
 
 //------------------------------------------------
@@ -330,6 +339,11 @@ int ImpressionistUI::getAngle() { return m_nAngle; }
 //------------------------------------------------
 float ImpressionistUI::getAlpha() { return m_nAlpha; }
 
+//------------------------------------------------
+// Return the scatteredNum value
+//------------------------------------------------
+int ImpressionistUI::getScatteredNum() { return m_nScatteredNum; }
+
 //-------------------------------------------------
 // Set the brush size
 //-------------------------------------------------
@@ -350,12 +364,21 @@ void ImpressionistUI::setAngle(int angle) {
 }
 
 //-------------------------------------------------
-// Set the brush angle
+// Set the brush alpha
 //-------------------------------------------------
 void ImpressionistUI::setAlpha(float alpha) {
-    m_nAngle = alpha;
+    m_nAlpha = alpha;
     if (alpha <= 1.0f)
-        m_BrushAngleSlider->value(m_nAngle);
+        m_BrushAlphaSlider->value(m_nAlpha);
+}
+
+//-------------------------------------------------
+// Set the scatteredNum
+//-------------------------------------------------
+void ImpressionistUI::setScatteredNum(int scattered_num) {
+    m_nScatteredNum = scattered_num;
+    if (scattered_num <= 50)
+        m_BrushScatteredNumSlider->value(m_nScatteredNum);
 }
 
 // Main menu definition
@@ -483,6 +506,20 @@ ImpressionistUI::ImpressionistUI() {
     m_BrushAlphaSlider->value(m_nAlpha);
     m_BrushAlphaSlider->align(FL_ALIGN_RIGHT);
     m_BrushAlphaSlider->callback(cb_alphaSlides);
+
+    // Add scatteredNum slider to the dialog
+    m_nScatteredNum = 10;
+    m_BrushScatteredNumSlider = new Fl_Value_Slider(10, 200, 300, 20, "Scattered Number");
+    m_BrushScatteredNumSlider->user_data((void *)(this));
+    m_BrushScatteredNumSlider->type(FL_HOR_NICE_SLIDER);
+    m_BrushScatteredNumSlider->labelfont(FL_COURIER);
+    m_BrushScatteredNumSlider->labelsize(12);
+    m_BrushScatteredNumSlider->minimum(1);
+    m_BrushScatteredNumSlider->maximum(50);
+    m_BrushScatteredNumSlider->step(1);
+    m_BrushScatteredNumSlider->value(m_nScatteredNum);
+    m_BrushScatteredNumSlider->align(FL_ALIGN_RIGHT);
+    m_BrushScatteredNumSlider->callback(cb_scatteredNumSlides);
 
     m_brushDialog->end();
 }
