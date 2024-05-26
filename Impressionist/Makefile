@@ -49,6 +49,7 @@ OUT_RELEASE = bin/Release/Impressionist
 
 OBJ_DEBUG = $(OBJDIR_DEBUG)/pointBrush.o \
 						$(OBJDIR_DEBUG)/triangleBrush.o \
+						$(OBJDIR_DEBUG)/circleBrush.o \
 						$(OBJDIR_DEBUG)/paintView.o \
 						$(OBJDIR_DEBUG)/originalView.o \
 						$(OBJDIR_DEBUG)/impressionistUI.o \
@@ -60,6 +61,7 @@ OBJ_DEBUG = $(OBJDIR_DEBUG)/pointBrush.o \
 
 OBJ_RELEASE = $(OBJDIR_RELEASE)/pointBrush.o \
 							$(OBJDIR_RELEASE)/triangleBrush.o \
+							$(OBJDIR_RELEASE)/circleBrush.o \
 							$(OBJDIR_RELEASE)/paintView.o \
 							$(OBJDIR_RELEASE)/originalView.o \
 							$(OBJDIR_RELEASE)/impressionistUI.o \
@@ -89,6 +91,9 @@ $(OBJDIR_DEBUG)/pointBrush.o: src/pointBrush.cpp
 
 $(OBJDIR_DEBUG)/triangleBrush.o: src/triangleBrush.cpp
 	$(CXX) $(CFLAGS_DEBUG) $(INC_DEBUG) -c src/triangleBrush.cpp -o $(OBJDIR_DEBUG)/triangleBrush.o
+
+$(OBJDIR_DEBUG)/circleBrush.o: src/circleBrush.cpp
+	$(CXX) $(CFLAGS_DEBUG) $(INC_DEBUG) -c src/circleBrush.cpp -o $(OBJDIR_DEBUG)/circleBrush.o
 
 $(OBJDIR_DEBUG)/paintView.o: src/paintView.cpp
 	$(CXX) $(CFLAGS_DEBUG) $(INC_DEBUG) -c src/paintView.cpp -o $(OBJDIR_DEBUG)/paintView.o
@@ -135,6 +140,9 @@ $(OBJDIR_RELEASE)/pointBrush.o: src/pointBrush.cpp
 
 $(OBJDIR_RELEASE)/triangleBrush.o: src/triangleBrush.cpp
 	$(CXX) $(CFLAGS_RELEASE) $(INC_RELEASE) -c src/triangleBrush.cpp -o $(OBJDIR_RELEASE)/triangleBrush.o
+
+$(OBJDIR_RELEASE)/circleBrush.o: src/circleBrush.cpp
+	$(CXX) $(CFLAGS_RELEASE) $(INC_RELEASE) -c src/circleBrush.cpp -o $(OBJDIR_RELEASE)/circleBrush.o
 
 $(OBJDIR_RELEASE)/paintView.o: src/paintView.cpp
 	$(CXX) $(CFLAGS_RELEASE) $(INC_RELEASE) -c src/paintView.cpp -o $(OBJDIR_RELEASE)/paintView.o
