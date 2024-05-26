@@ -1,17 +1,17 @@
 //
-// pointBrush.h
+// lineBrush.h
 //
-// The header file for Point Brush.
+// The header file for Line Brush.
 //
 
-#ifndef POINTBRUSH_H
-#define POINTBRUSH_H
+#ifndef LINEBRUSH_H
+#define LINEBRUSH_H
 
 #include "impBrush.h"
 
-class PointBrush : public ImpBrush {
+class LineBrush : public ImpBrush {
   public:
-    PointBrush(ImpressionistDoc *pDoc = NULL, const char *name = NULL);
+    LineBrush(ImpressionistDoc *pDoc = NULL, const char *name = NULL);
 
     void BrushBegin(const Point source, const Point target);
     void BrushMove(const Point source, const Point target);
