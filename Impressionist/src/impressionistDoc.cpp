@@ -216,15 +216,15 @@ void ImpressionistDoc::applyFilter(const unsigned char *sourceBuffer, int srcBuf
                             sourceBuffer[3 * (i + k - 2 + srcBufferWidth * (j + l - 2)) + 2] / divisor;
                 }
             }
+
+            bufR = std::clamp(bufR, 0.0, 255.0);
+            bufG = std::clamp(bufG, 0.0, 255.0);
+            bufB = std::clamp(bufB, 0.0, 255.0);
+
+            destBuffer[3 * (i + srcBufferWidth * j)] = (unsigned char)bufR;
+            destBuffer[3 * (i + srcBufferWidth * j) + 1] = (unsigned char)bufG;
+            destBuffer[3 * (i + srcBufferWidth * j) + 2] = (unsigned char)bufB;
         }
-
-        bufR = std::clamp(bufR, 0.0, 255.0);
-        bufG = std::clamp(bufG, 0.0, 255.0);
-        bufB = std::clamp(bufB, 0.0, 255.0);
-
-        destBuffer[3 * (i + srcBufferWidth * j)] = (unsigned char)bufR;
-        destBuffer[3 * (i + srcBufferWidth * j) + 1] = (unsigned char)bufG;
-        destBuffer[3 * (i + srcBufferWidth * j) + 2] = (unsigned char)bufB;
     }
 }
 
