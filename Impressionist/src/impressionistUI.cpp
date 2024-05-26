@@ -428,9 +428,6 @@ ImpressionistUI::ImpressionistUI() {
     offset = 0;
     initFltDesignUI();
 
-    m_nSize = 10;
-    // ŽÀK
-
     // brush dialog definition
     m_brushDialog = new Fl_Window(400, 325, "Brush Dialog");
     // Add a brush type choice to the dialog
@@ -444,6 +441,7 @@ ImpressionistUI::ImpressionistUI() {
     m_ClearCanvasButton->callback(cb_clear_canvas_button);
 
     // Add brush size slider to the dialog
+    m_nSize = 10;
     m_BrushSizeSlider = new Fl_Value_Slider(10, 80, 300, 20, "Size");
     m_BrushSizeSlider->user_data((void *)(this)); // record self to be used by static callback functions
     m_BrushSizeSlider->type(FL_HOR_NICE_SLIDER);
@@ -489,7 +487,6 @@ ImpressionistUI::ImpressionistUI() {
 
 ImpressionistUI::~ImpressionistUI() { delete fltDesignUI; }
 
-// ŽÀK@FilterKernel
 void ImpressionistUI::cb_copy_image_to_canvas(Fl_Menu_ *o, void *v) {
     ImpressionistDoc *pDoc = whoami(o)->getDocument();
 
@@ -500,7 +497,6 @@ void ImpressionistUI::cb_copy_image_to_canvas(Fl_Menu_ *o, void *v) {
     }
 }
 
-// Filter Kernerl—p
 void ImpressionistUI::cb_filter_kernel(Fl_Menu_ *o, void *v) {
     ImpressionistDoc *pDoc = whoami(o)->getDocument();
     if (pDoc->m_ucPainting != NULL) {
