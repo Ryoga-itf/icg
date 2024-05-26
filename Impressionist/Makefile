@@ -51,7 +51,7 @@ OBJ_DEBUG = $(OBJDIR_DEBUG)/pointBrush.o \
 						$(OBJDIR_DEBUG)/triangleBrush.o \
 						$(OBJDIR_DEBUG)/circleBrush.o \
 						$(OBJDIR_DEBUG)/lineBrush.o \
-						$(OBJDIR_DEBUG)/scatteredBrush.o \
+						$(OBJDIR_DEBUG)/scatteredPointBrush.o \
 						$(OBJDIR_DEBUG)/paintView.o \
 						$(OBJDIR_DEBUG)/originalView.o \
 						$(OBJDIR_DEBUG)/impressionistUI.o \
@@ -65,7 +65,7 @@ OBJ_RELEASE = $(OBJDIR_RELEASE)/pointBrush.o \
 							$(OBJDIR_RELEASE)/triangleBrush.o \
 							$(OBJDIR_RELEASE)/circleBrush.o \
 							$(OBJDIR_RELEASE)/lineBrush.o \
-							$(OBJDIR_RELEASE)/scatteredBrush.o \
+							$(OBJDIR_RELEASE)/scatteredPointBrush.o \
 							$(OBJDIR_RELEASE)/paintView.o \
 							$(OBJDIR_RELEASE)/originalView.o \
 							$(OBJDIR_RELEASE)/impressionistUI.o \
@@ -102,8 +102,8 @@ $(OBJDIR_DEBUG)/circleBrush.o: src/circleBrush.cpp
 $(OBJDIR_DEBUG)/lineBrush.o: src/lineBrush.cpp
 	$(CXX) $(CFLAGS_DEBUG) $(INC_DEBUG) -c src/lineBrush.cpp -o $(OBJDIR_DEBUG)/lineBrush.o
 
-$(OBJDIR_DEBUG)/scatteredBrush.o: src/scatteredBrush.cpp
-	$(CXX) $(CFLAGS_DEBUG) $(INC_DEBUG) -c src/scatteredBrush.cpp -o $(OBJDIR_DEBUG)/scatteredBrush.o
+$(OBJDIR_DEBUG)/scatteredPointBrush.o: src/scatteredPointBrush.cpp
+	$(CXX) $(CFLAGS_DEBUG) $(INC_DEBUG) -c src/scatteredPointBrush.cpp -o $(OBJDIR_DEBUG)/scatteredPointBrush.o
 
 $(OBJDIR_DEBUG)/paintView.o: src/paintView.cpp
 	$(CXX) $(CFLAGS_DEBUG) $(INC_DEBUG) -c src/paintView.cpp -o $(OBJDIR_DEBUG)/paintView.o
@@ -157,8 +157,8 @@ $(OBJDIR_RELEASE)/circleBrush.o: src/circleBrush.cpp
 $(OBJDIR_RELEASE)/lineBrush.o: src/lineBrush.cpp
 	$(CXX) $(CFLAGS_RELEASE) $(INC_RELEASE) -c src/lineBrush.cpp -o $(OBJDIR_RELEASE)/lineBrush.o
 
-$(OBJDIR_RELEASE)/scatteredBrush.o: src/scatteredBrush.cpp
-	$(CXX) $(CFLAGS_RELEASE) $(INC_RELEASE) -c src/scatteredBrush.cpp -o $(OBJDIR_RELEASE)/scatteredBrush.o
+$(OBJDIR_RELEASE)/scatteredPointBrush.o: src/scatteredPointBrush.cpp
+	$(CXX) $(CFLAGS_RELEASE) $(INC_RELEASE) -c src/scatteredPointBrush.cpp -o $(OBJDIR_RELEASE)/scatteredPointBrush.o
 
 $(OBJDIR_RELEASE)/paintView.o: src/paintView.cpp
 	$(CXX) $(CFLAGS_RELEASE) $(INC_RELEASE) -c src/paintView.cpp -o $(OBJDIR_RELEASE)/paintView.o
