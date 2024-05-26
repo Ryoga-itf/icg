@@ -31,15 +31,14 @@ void PointBrush::BrushMove(const Point source, const Point target) {
     ImpressionistDoc *pDoc = GetDocument();
     ImpressionistUI *dlg = pDoc->m_pUI;
 
-    // スライダーつけたあと
-
     if (pDoc == NULL) {
         printf("PointBrush::BrushMove  document is NULL\n");
         return;
     }
 
-    // SetColorAlpha( source, alpha );
-    SetColor(source);
+    const auto alpha = pDoc->getAlpha();
+
+    SetColorAlpha(source, alpha);
     glBegin(GL_POINTS);
     glVertex2d(target.x, target.y);
     glEnd();

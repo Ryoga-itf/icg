@@ -41,8 +41,8 @@ void CircleBrush::BrushMove(const Point source, const Point target) {
     constexpr auto div = 12;
     const auto size = pDoc->getSize();
     const auto radius = size / 2.0f;
-    // SetColorAlpha( source, alpha );
-    SetColor(source);
+    const auto alpha = pDoc->getAlpha();
+    SetColorAlpha(source, alpha);
     glBegin(GL_POLYGON);
     for (size_t i = 0; i < div; i++) {
         const auto Ax = target.x + radius * std::cos(2 * M_PI * i / div);

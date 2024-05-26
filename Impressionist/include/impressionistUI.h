@@ -46,6 +46,7 @@ class ImpressionistUI {
 
     Fl_Slider *m_BrushSizeSlider;
     Fl_Slider *m_BrushAngleSlider;
+    Fl_Slider *m_BrushAlphaSlider;
 
     Fl_Button *m_ClearCanvasButton;
 
@@ -60,9 +61,11 @@ class ImpressionistUI {
 
     int getSize();
     int getAngle();
+    float getAlpha();
 
     void setSize(int size);
     void setAngle(int angle);
+    void setAlpha(float alpha);
 
     // Callbacks for the image filter dialogue (different from
     // the other callbacks because they aren't static)
@@ -79,6 +82,7 @@ class ImpressionistUI {
     // All attributes here
     int m_nSize;
     int m_nAngle;
+    float m_nAlpha;
 
     // These attributes are set by the filter kernel UI
     double fltKernel[FLT_WIDTH * FLT_HEIGHT]; // the kernel of the image filter
@@ -106,6 +110,7 @@ class ImpressionistUI {
     static void cb_copy_image_to_canvas(Fl_Menu_ *o, void *v);
     static void cb_sizeSlides(Fl_Widget *o, void *v);
     static void cb_angleSlides(Fl_Widget *o, void *v);
+    static void cb_alphaSlides(Fl_Widget *o, void *v);
 };
 
 #endif

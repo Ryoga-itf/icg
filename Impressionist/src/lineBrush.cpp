@@ -44,8 +44,8 @@ void LineBrush::BrushMove(const Point source, const Point target) {
     const float Bx = target.x - size * std::cos(M_PI * angle / 180);
     const float By = target.y - size * std::sin(M_PI * angle / 180);
 
-    // SetColorAlpha( source, alpha );
-    SetColor(source);
+    const auto alpha = pDoc->getAlpha();
+    SetColorAlpha(source, alpha);
     glBegin(GL_LINES);
     glVertex2f(Ax, Ay);
     glVertex2f(Bx, By);

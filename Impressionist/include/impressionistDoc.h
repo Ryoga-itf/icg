@@ -31,6 +31,7 @@ class ImpressionistDoc {
     void setBrushType(int type); // called by the UI to set the brushType
     int getSize();               // get the UI size
     int getAngle();              // get the UI angle
+    float getAlpha();            // get the UI angle
 
     // get the UI angle
     void setSize(int size); // set the UI size

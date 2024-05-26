@@ -38,11 +38,13 @@ void ScatteredPointBrush::BrushMove(const Point source, const Point target) {
         return;
     }
 
+    const auto alpha = pDoc->getAlpha();
     const auto size = pDoc->getSize();
 
+    SetColorAlpha(source, alpha);
+
     glPointSize(1.0);
-    // SetColorAlpha( source, alpha );
-    SetColor(source);
+    SetColorAlpha(source, alpha);
     glBegin(GL_POINTS);
     for (size_t i = 0; i < 10; i++) {
         const int Ax = target.x - size / 2 + std::rand() % size;

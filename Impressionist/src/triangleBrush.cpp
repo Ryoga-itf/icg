@@ -45,8 +45,8 @@ void TriangleBrush::BrushMove(const Point source, const Point target) {
     const int By = target.y - (.5 * size);
     const int Cy = target.y + (.5 * size);
 
-    // SetColorAlpha( source, alpha );
-    SetColor(source);
+    const auto alpha = pDoc->getAlpha();
+    SetColorAlpha(source, alpha);
     glBegin(GL_POLYGON);
     glVertex2i(Ax, Ay);
     glVertex2i(Bx, By);

@@ -78,6 +78,11 @@ int ImpressionistDoc::getSize() { return m_pUI->getSize(); }
 int ImpressionistDoc::getAngle() { return m_pUI->getAngle(); }
 
 //---------------------------------------------------------
+// Returns the angle of the brush.
+//---------------------------------------------------------
+float ImpressionistDoc::getAlpha() { return m_pUI->getAlpha(); }
+
+//---------------------------------------------------------
 // Load the specified image
 // This is called by the UI when the load image button is
 // pressed.
