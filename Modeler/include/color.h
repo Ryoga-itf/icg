@@ -8,15 +8,14 @@
 #pragma warning(disable : 4244)
 #pragma warning(disable : 4305)
 
-class Color
-{
-public:
-	Color(void);
-	Color(const float new_red, const float new_green, const float new_blue);
+class Color {
+  public:
+    Color(void);
+    Color(const float new_red, const float new_green, const float new_blue);
 
-	float red;
-	float green;
-	float blue;
+    float red;
+    float green;
+    float blue;
 };
 
 #endif

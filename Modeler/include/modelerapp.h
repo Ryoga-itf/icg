@@ -14,19 +14,18 @@
 
 #include "modelerview.h"
 
-struct ModelerControl
-{
-	ModelerControl();
-	ModelerControl(const char* name, float minimum, float maximum, float stepsize, float value);
-	ModelerControl(const ModelerControl &o);
-	ModelerControl& operator=(const ModelerControl &o);
-	void SetVals(const char* name, float minimum, float maximum, float stepsize, float value);
+struct ModelerControl {
+    ModelerControl();
+    ModelerControl(const char *name, float minimum, float maximum, float stepsize, float value);
+    ModelerControl(const ModelerControl &o);
+    ModelerControl &operator=(const ModelerControl &o);
+    void SetVals(const char *name, float minimum, float maximum, float stepsize, float value);
 
-	char  m_name[128];
-	float m_minimum;
-	float m_maximum;
-	float m_stepsize;
-	float m_value;
+    char m_name[128];
+    float m_minimum;
+    float m_maximum;
+    float m_stepsize;
+    float m_value;
 };
 
 // Forward declarations for ModelerApplication
@@ -39,64 +38,61 @@ class ParticleSystem;
 
 // The ModelerApplication is implemented as a "singleton" design pattern,
 // the purpose of which is to only allow one instance of it.
-class ModelerApplication
-{
-public:
-	~ModelerApplication();
+class ModelerApplication {
+  public:
+    ~ModelerApplication();
 
-	// Fetch the global ModelerApplication instance
-	static ModelerApplication* Instance();
+    // Fetch the global ModelerApplication instance
+    static ModelerApplication *Instance();
 
     // Initialize the application; see sample models for usage
-	void Init(ModelerViewCreator_f createView, 
-              const ModelerControl controls[], 
-              unsigned numControls); 
+    void Init(ModelerViewCreator_f createView, const ModelerControl controls[], unsigned numControls);
 
     // Starts the application, returns when application is closed
-	int  Run();
+    int Run();
 
     // Get a pointer to the UI
-	ModelerUI* GetUI() { return m_ui; };
+    ModelerUI *GetUI() { return m_ui; };
 
-	// Get and set slider values.
+    // Get and set slider values.
     double GetControlValue(int controlNumber);
-    void   SetControlValue(int controlNumber, double value);
+    void SetControlValue(int controlNumber, double value);
 
-	// Get and set particle system
-	ParticleSystem *GetParticleSystem();
-	void SetParticleSystem(ParticleSystem *s);
+    // Get and set particle system
+    ParticleSystem *GetParticleSystem();
+    void SetParticleSystem(ParticleSystem *s);
 
-	// Return the current time
-	float GetTime();
+    // Return the current time
+    float GetTime();
 
-	// Return the current fps
-	int GetFps();
+    // Return the current fps
+    int GetFps();
 
-	// Returns animating flag
-	bool Animating();
+    // Returns animating flag
+    bool Animating();
 
-	void setAnimating(bool a);
+    void setAnimating(bool a);
 
-private:
-	// Private for singleton
-	ModelerApplication() : m_numControls(-1) { ps = 0; }
-	ModelerApplication(const ModelerApplication&) {}
-	ModelerApplication& operator=(const ModelerApplication&) {}
-	
-	// The instance
-	static ModelerApplication *m_instance;
+  private:
+    // Private for singleton
+    ModelerApplication() : m_numControls(-1) { ps = 0; }
+    ModelerApplication(const ModelerApplication &) {}
+    ModelerApplication &operator=(const ModelerApplication &) {}
 
-	ModelerUI *m_ui;
-	int					  m_numControls;
+    // The instance
+    static ModelerApplication *m_instance;
+
+    ModelerUI *m_ui;
+    int m_numControls;
 
     static void ValueChangedCallback();
-	static void RedrawLoop(void*);
+    static void RedrawLoop(void *);
 
-	// Just a flag for updates
-	bool m_animating;
+    // Just a flag for updates
+    bool m_animating;
 
-	// Particle System variables
-	ParticleSystem *ps;
+    // Particle System variables
+    ParticleSystem *ps;
 };
 
 #endif

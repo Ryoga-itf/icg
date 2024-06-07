@@ -2,61 +2,44 @@
 
 using namespace Animator;
 
-Point::Point(void)
-	:x(0.0),
-	 y(0.0)
-{
+Point::Point(void) : x(0.0), y(0.0) {}
 
+Point::Point(const float &new_x, const float &new_y) : x(new_x), y(new_y) {}
+
+void Point::toStream(std::ostream &output_stream) const {
+    output_stream << x << std::endl;
+    output_stream << y << std::endl;
 }
 
-Point::Point(const float& new_x, const float& new_y)
-	:x(new_x),
-	 y(new_y)
-{
-
+void Point::fromStream(std::istream &input_stream) {
+    input_stream >> x;
+    input_stream >> y;
 }
 
-void Point::toStream(std::ostream & output_stream) const
-{
-	output_stream << x << std::endl;
-	output_stream << y << std::endl;
+namespace Animator {
+
+std::ostream &operator<<(std::ostream &output_stream, const Animator::Point &point) {
+    point.toStream(output_stream);
+
+    return output_stream;
 }
 
-void Point::fromStream(std::istream & input_stream)
-{
-	input_stream >> x;
-	input_stream >> y;
+std::istream &operator>>(std::istream &input_stream, Animator::Point &point) {
+    point.fromStream(input_stream);
+
+    return input_stream;
 }
 
-namespace Animator
-{
+} // namespace Animator
 
-std::ostream & operator<<(std::ostream & output_stream, const Animator::Point & point)
-{
-	point.toStream(output_stream);
+bool PointSmallerXCompare::operator()(const Point &first, const Point &second) const {
+    bool hasSmallerX = (first.x < second.x);
 
-	return output_stream;
+    return hasSmallerX;
 }
 
-std::istream & operator>>(std::istream & input_stream, Animator::Point & point)
-{
-	point.fromStream(input_stream);
+bool PointLargerXCompare::operator()(const Point &first, const Point &second) const {
+    bool hasLargerX = (first.x > second.x);
 
-	return input_stream;
-}
-
-}
-
-bool PointSmallerXCompare::operator()(const Point & first, const Point & second) const
-{
-	bool hasSmallerX = (first.x < second.x);
-
-	return hasSmallerX;
-}
-
-bool PointLargerXCompare::operator()(const Point & first, const Point & second) const
-{
-	bool hasLargerX = (first.x > second.x);
-
-	return hasLargerX;
+    return hasLargerX;
 }
