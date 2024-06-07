@@ -13214,7 +13214,7 @@ namespace cimg_library {
 	  cimg_map(*this,ptr,T) if (cimg::rand()*100<nsigma) *ptr=(T)(cimg::rand()<0.5?st.max:st.min);
 	} break;
 
-	case 3: { // Poisson Noise (contribution by Jérome Boulanger)
+	case 3: { // Poisson Noise (contribution by Jé§»ome Boulanger)
 	  cimg_map(*this,ptr,T) {
 	    const double z = (double)*ptr;
 	    if (z<=1.0e-10) *ptr=(T)0;

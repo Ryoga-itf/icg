@@ -1,34 +1,34 @@
 //=============================================================================
-// �t�@�C��: controller.h
+// ファイル: controller.h
 //=============================================================================
-// �X���C�_�R���g���[���̐ݒ�
+// スライダコントローラの設定
 //=============================================================================
 
 #ifndef __CONTROLLER_H__
 #define __CONTROLLER_H__
 
-// �w�b�_�t�@�C���̃C���N���[�h
+// ヘッダファイルのインクルード
 #include "modelerapp.h"
 
-// �t���[���ԍ��̍ő�l
+// フレーム番号の最大値
 extern int max_frame_count;
 
-// �R���g���[�����ʗp�̗񋓎q
+// コントローラ識別用の列挙子
 enum CONTROLLERS {
 
-    FRAME_CONTROLS, // �t���[���R���g���[���i�ύX���Ȃ�����)
-    // �`�`�`�񋓎q��ǉ��`�`�`
+    FRAME_CONTROLS, // フレームコントローラ（変更しないこと)
+    // 〜〜〜列挙子を追加〜〜〜
 
-    NUM_CONTROLS, // �R���g���[�����i�K�������ɒǉ��j
+    NUM_CONTROLS, // コントローラ数（必ず末尾に追加）
 };
 
-// �R���g���[���̐ݒ�
-// �iNUM_CONTROLS������CONTROLLERS�񋓎q�ƂP�F�P�ɑΉ��t����j
+// コントローラの設定
+// （NUM_CONTROLSを除くCONTROLLERS列挙子と１：１に対応付ける）
 void SetController(ModelerControl *controls) {
-    // �t���[���ԍ��̐���p�X���C�_
+    // フレーム番号の制御用スライダ
     controls[FRAME_CONTROLS] = ModelerControl("Frame Number", 0, (float)max_frame_count, 1, 0);
 
-    // �`�`�`�X���C�_��ǉ��`�`�`
+    // 〜〜〜スライダを追加〜〜〜
 }
 
 // __CONTROLLER_H__
