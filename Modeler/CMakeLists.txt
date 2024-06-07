@@ -18,7 +18,6 @@ add_library(fltk_all INTERFACE)
 target_include_directories(fltk_all INTERFACE ../fltk ${CMAKE_CURRENT_BINARY_DIR}/fltk)
 target_link_libraries(fltk_all INTERFACE fltk fltk_gl fltk_images)
 
-
 # Modeler
 set(Modeler_SRC
   src/animatoruiwindows.cxx
