@@ -1,0 +1,3 @@
+CompileFlags:
+  Add:
+    - --include-directory=/home/ryoga/workspace/repos/github.com/Ryoga-itf/icg/Modeler/include/
