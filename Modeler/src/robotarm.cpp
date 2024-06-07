@@ -11,7 +11,6 @@
 #include "modelerapp.h"
 #include "modelerdraw.h"
 #include "modelerview.h"
-#include "particleSystem.h"
 
 #include <FL/gl.h>
 #include <cstdlib>

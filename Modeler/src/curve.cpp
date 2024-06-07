@@ -1,7 +1,6 @@
 #include "curve.h"
 
 #include <algorithm>
-#include <functional>
 #ifdef _DEBUG
 #include <cassert>
 #endif // _DEBUG

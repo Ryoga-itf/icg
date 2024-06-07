@@ -10,15 +10,12 @@
 #include <GL/glu.h>
 #endif
 #include <cstdio>
-#include <fstream>
 
 #include "modelerapp.h" // needed to read values from graph widget
 #include "modelerui.h"  // needed to read values from graph widget
 
 #include "camera.h"
 #include "curve.h"
-#include "curveevaluator.h"
-#include "linearcurveevaluator.h"
 
 #pragma warning(push)
 #pragma warning(disable : 4244)

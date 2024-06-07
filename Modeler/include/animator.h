@@ -13,12 +13,12 @@
 #include <math.h>
 
 // Discern automatic and manual animation ( true: automatic / false: manual )
-bool IsAutomaticAnimation() { return ModelerApplication::Instance()->Animating(); }
+inline bool IsAutomaticAnimation() { return ModelerApplication::Instance()->Animating(); }
 
 // Get slider control value
-double GetSliderValue(int enumeration) { return ModelerApplication::Instance()->GetControlValue(enumeration); }
+inline double GetSliderValue(int enumeration) { return ModelerApplication::Instance()->GetControlValue(enumeration); }
 
 // Set slider control value
-void SetSliderValue(int enumeration, double value) {
+inline void SetSliderValue(int enumeration, double value) {
     ModelerApplication::Instance()->SetControlValue(enumeration, value);
 }

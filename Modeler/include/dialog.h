@@ -1,4 +1,5 @@
 #include <FL/Fl.H>
+#include <FL/Fl_Button.H>
 #include <FL/Fl_Int_Input.H>
 #include <FL/Fl_Text_Display.H>
 #include <FL/Fl_Window.H>

@@ -3,11 +3,11 @@
 #include <cfloat>
 #include <cmath>
 #include <cstdio>
+#include <cstring>
 #include <string>
 
 using namespace std;
 
-#include "FL/Fl.H"
 #include "FL/fl_draw.H"
 #include "rulerwindow.h"
 
