@@ -9,6 +9,7 @@
 
 // ヘッダファイルのインクルード
 #include "animator.h"
+#include "controller.h"
 
 // フレーム番号の最大値
 int max_frame_count = 500;
@@ -123,7 +124,26 @@ class Model : public ModelerView {
         // オブジェクトを描画
         //---------------------------------------------------------------------
 
-        // 〜〜〜プログラムを記述〜〜〜
+        // 色を設定
+        setAmbientColor(0.5f, 0.5f, 0.5f);
+        setSpecularColor(1.0f, 1.0f, 1.0f);
+        setShininess(20.0f);
+
+        // 床を描写
+        glPushMatrix();
+        setDiffuseColor(0.5f, 0.3f, 0.0f, 1.0f);
+        glTranslated(-5, -5, -5);
+        drawBox(10, 0.2, 10);
+        glPopMatrix();
+
+        // スライダの値に従って，x, y, z 軸方向に平行移動
+        glTranslated(GetSliderValue(X_POSITION), 0.0f, 0.0f);
+        glTranslated(0.0f, GetSliderValue(Y_POSITION), 0.0f);
+        glTranslated(0.0f, 0.0f, GetSliderValue(Z_POSITION));
+
+        // 図形を描画
+        setDiffuseColor(0.0f, 0.0f, 0.5f, 1.0f);
+        drawSphere(2.0f);
 
         //---------------------------------------------------------------------
 
