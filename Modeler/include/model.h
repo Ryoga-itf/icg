@@ -10,6 +10,7 @@
 // ヘッダファイルのインクルード
 #include "animator.h"
 #include "controller.h"
+#include <GL/gl.h>
 
 // フレーム番号の最大値
 int max_frame_count = 500;
@@ -93,6 +94,19 @@ class Model : public ModelerView {
         glDisable(GL_BLEND);
     }
 
+    // 片目の描画
+    void DrawEye() {
+        // 白目の描画
+        setDiffuseColor(1.0f, 1.0f, 1.0f, 1.0f);
+        drawSphere(0.25);
+        // 黒目の描画
+        glPushMatrix();
+        setDiffuseColor(0.2f, 0.1f, 0.0f, 1.0f);
+        glTranslated(0.0, 0.2, 0.0);
+        drawSphere(0.1);
+        glPopMatrix();
+    }
+
     // オブジェクトの描画
     void draw() {
         // 〜〜〜〜〜〜〜〜〜〜〜〜〜〜〜〜〜〜〜〜〜〜〜〜〜〜〜〜〜〜〜〜〜〜〜
@@ -124,26 +138,62 @@ class Model : public ModelerView {
         // オブジェクトを描画
         //---------------------------------------------------------------------
 
-        // 色を設定
+        glPushMatrix(); // 初期座標系を保存
+
+        // 拡散反射光を設定
+        setDiffuseColor(0.4f, 0.3f, 0.0f, 1.0f);
+        // 環境光を設定
         setAmbientColor(0.5f, 0.5f, 0.5f);
+        // 鏡面反射光を設定
         setSpecularColor(1.0f, 1.0f, 1.0f);
+        // ハイライトの強さを設定
         setShininess(20.0f);
 
-        // 床を描写
+        drawBox(4, 0.3, 4);    // 台を描画
+        glTranslated(2, 0, 2); // 原点を台の中心に移動
+
+        // ステップ１----------------------------------------------
+
+        glRotated(GetSliderValue(ARM1_ANGLE), 1, 0, 0); // 座標系を傾ける
+        // 拡散反射光を設定
+        setDiffuseColor(0.0f, 0.8f, 0.0f, 1.0f);
+        drawBox(0.2, 4, 0.2);  // アーム１の描画
+        glTranslated(0, 4, 0); // 原点をアーム１の先端に移動
+
+        // ステップ２----------------------------------------------
+
+        glRotated(GetSliderValue(ARM2_ANGLE), 1, 0, 0); // 座標系を傾ける
+        // 拡散反射光を設定
+        setDiffuseColor(0.8f, 0.8f, 0.0f, 1.0f);
+        drawBox(0.2, 2, 0.2);     // アーム２の描画
+        glTranslated(-0.5, 2, 0); // 原点をアーム２の先端に移動
+
+        // ステップ３----------------------------------------------
+
+        glPushMatrix();                                 // 座標系を保存
+        glRotated(GetSliderValue(ARM3_ANGLE), 1, 0, 0); // 座標系を傾ける
+        // 拡散反射光を設定
+        setDiffuseColor(0.8f, 0.0f, 0.0f, 1.0f);
+        drawBox(1, 1, 0.2); // アーム３の描画
+
+        // 目の描画
+        glTranslated(0.0, 0.0, -0.2f);
         glPushMatrix();
-        setDiffuseColor(0.5f, 0.3f, 0.0f, 1.0f);
-        glTranslated(-5, -5, -5);
-        drawBox(10, 0.2, 10);
+        glTranslated(0.2f, 0.0, 0.0);
+        DrawEye();
         glPopMatrix();
 
-        // スライダの値に従って，x, y, z 軸方向に平行移動
-        glTranslated(GetSliderValue(X_POSITION), 0.0f, 0.0f);
-        glTranslated(0.0f, GetSliderValue(Y_POSITION), 0.0f);
-        glTranslated(0.0f, 0.0f, GetSliderValue(Z_POSITION));
+        glTranslated(0.8f, 0.0, 0.0);
+        DrawEye();
 
-        // 図形を描画
-        setDiffuseColor(0.0f, 0.0f, 0.5f, 1.0f);
-        drawSphere(2.0f);
+        // ステップ４----------------------------------------------
+
+        glPopMatrix();                                  // 座標系を復元
+        glRotated(GetSliderValue(ARM4_ANGLE), 1, 0, 0); // 座標系を傾ける
+        // 拡散反射光を設定
+        setDiffuseColor(0.0f, 0.0f, 0.8f, 1.0f);
+        drawBox(1, 1, 0.2); // アーム４の描画
+        glPopMatrix();      // 初期座標系を復元
 
         //---------------------------------------------------------------------
 
