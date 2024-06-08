@@ -10,10 +10,12 @@
 // ヘッダファイルのインクルード
 #include "animator.h"
 #include "controller.h"
+#include "modelerdraw.h"
 #include <GL/gl.h>
+#include <cmath>
 
 // フレーム番号の最大値
-int max_frame_count = 500;
+int max_frame_count = 450;
 
 // Modelクラスの定義（ModelerViewクラスを継承）
 class Model : public ModelerView {
@@ -30,6 +32,7 @@ class Model : public ModelerView {
     //-------------------------------------------------------------------------
 
     // 〜〜〜変数を追加〜〜〜
+    double r, posX, posY;
 
     // 〜〜〜〜〜〜〜〜〜〜〜〜〜〜〜〜〜〜〜〜〜〜〜〜〜〜〜〜〜〜〜〜〜〜〜
 
@@ -48,6 +51,9 @@ class Model : public ModelerView {
         //---------------------------------------------------------------------
 
         // 〜〜〜変数を初期化〜〜〜
+        r = 4.0;
+        posX = r;   // r * cos(0)
+        posY = 0.0; // r * sin(0)
 
         // 〜〜〜〜〜〜〜〜〜〜〜〜〜〜〜〜〜〜〜〜〜〜〜〜〜〜〜〜〜〜〜〜〜〜〜
     }
@@ -63,6 +69,9 @@ class Model : public ModelerView {
         //-----------------------------------------------------------------
 
         // 〜〜〜プログラムを記述〜〜〜
+        double th = frame_count * M_PI / 50;
+        posX = r * cos(th);
+        posY = r * sin(th);
 
         //-----------------------------------------------------------------
     }
@@ -74,6 +83,9 @@ class Model : public ModelerView {
         //-----------------------------------------------------------------
 
         // 〜〜〜プログラムを記述〜〜〜
+        double th = frame_count * M_PI / 50;
+        posX = r * cos(th);
+        posY = r * sin(th);
 
         //-----------------------------------------------------------------
     }
@@ -196,6 +208,9 @@ class Model : public ModelerView {
         glPopMatrix();      // 初期座標系を復元
 
         //---------------------------------------------------------------------
+
+        glTranslated(posX, posY, 0);
+        drawSphere(0.5);
 
         // 描画終了
         EndPaint();
