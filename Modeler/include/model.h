@@ -32,7 +32,23 @@ class Model : public ModelerView {
     //-------------------------------------------------------------------------
 
     // 〜〜〜変数を追加〜〜〜
-    double r, posX, posY;
+
+    // 時間刻み
+    double dt;
+
+    // 重力加速度
+    double G;
+
+    // 振り子の長さ
+    double r;
+
+    // 振り子の角度
+    double angle_prev; // θ(t-dt)
+    double angle_curr; // θ(t)
+    double angle_next; // θ(t+dt)
+
+    // ボールの位置座標
+    Vec3d pos;
 
     // 〜〜〜〜〜〜〜〜〜〜〜〜〜〜〜〜〜〜〜〜〜〜〜〜〜〜〜〜〜〜〜〜〜〜〜
 
@@ -51,9 +67,21 @@ class Model : public ModelerView {
         //---------------------------------------------------------------------
 
         // 〜〜〜変数を初期化〜〜〜
-        r = 4.0;
-        posX = r;   // r * cos(0)
-        posY = 0.0; // r * sin(0)
+
+        // 時間刻みを設定
+        dt = 0.06;
+
+        // 重力加速度を設定
+        G = 9.8;
+
+        // 振り子の長さを設定
+        r = 6.0;
+
+        // 振り子の角度を初期化
+        angle_prev = angle_curr = angle_next = M_PI / 4.0;
+
+        // ボールの位置座標を初期化
+        pos = Vec3d(r * std::sin(angle_next), -r * std::cos(angle_next), 0);
 
         // 〜〜〜〜〜〜〜〜〜〜〜〜〜〜〜〜〜〜〜〜〜〜〜〜〜〜〜〜〜〜〜〜〜〜〜
     }
@@ -69,9 +97,11 @@ class Model : public ModelerView {
         //-----------------------------------------------------------------
 
         // 〜〜〜プログラムを記述〜〜〜
-        double th = frame_count * M_PI / 50;
-        posX = r * cos(th);
-        posY = r * sin(th);
+        const double k = std::sqrt(G / r);
+        angle_next = -angle_prev + 2 * angle_curr - k * k * dt * dt * std::sin(angle_curr);
+        angle_prev = angle_curr;
+        angle_curr = angle_next;
+        pos = Vec3d(r * std::sin(angle_next), -r * std::cos(angle_next), 0);
 
         //-----------------------------------------------------------------
     }
@@ -83,9 +113,8 @@ class Model : public ModelerView {
         //-----------------------------------------------------------------
 
         // 〜〜〜プログラムを記述〜〜〜
-        double th = frame_count * M_PI / 50;
-        posX = r * cos(th);
-        posY = r * sin(th);
+        angle_prev = angle_curr;
+        angle_curr = angle_next;
 
         //-----------------------------------------------------------------
     }
@@ -209,7 +238,22 @@ class Model : public ModelerView {
 
         //---------------------------------------------------------------------
 
-        glTranslated(posX, posY, 0);
+        // glTranslated(posX, posY, 0);
+        // drawSphere(0.5);
+        // 振り子の軸を描画
+
+        glBegin(GL_LINES);
+
+        glVertex3d(0, 0, 0);
+
+        glVertex3d(pos[0], pos[1], pos[2]);
+
+        glEnd();
+
+        // ボールを描画
+
+        glTranslated(pos[0], pos[1], pos[2]);
+
         drawSphere(0.5);
 
         // 描画終了
