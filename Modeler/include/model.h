@@ -171,6 +171,8 @@ class Model : public ModelerView {
 
         // スーパークラスの描画メソッドをコール（必須）
         ModelerView::draw();
+        ParticleSystem *ps = ModelerApplication::Instance()->GetParticleSystem();
+        Mat4f CameraTransforms = ps->getModelViewMatrix();
 
         // 描画開始
         BeginPaint();
@@ -234,7 +236,11 @@ class Model : public ModelerView {
         // 拡散反射光を設定
         setDiffuseColor(0.0f, 0.0f, 0.8f, 1.0f);
         drawBox(1, 1, 0.2); // アーム４の描画
-        glPopMatrix();      // 初期座標系を復元
+
+        glTranslated(0.5, 1, -0.5);
+        ps->SpawnParticles(CameraTransforms);
+
+        glPopMatrix(); // 初期座標系を復元
 
         //---------------------------------------------------------------------
 

@@ -21,6 +21,9 @@ int main() {
     // appropriate array of controls.
     ModelerApplication::Instance()->Init(&createModel, controls, NUM_CONTROLS);
 
+    ParticleSystem *ps = new ParticleSystem();
+    ModelerApplication::Instance()->SetParticleSystem(ps);
+
     // make sure we give back the memory to older OSs that don't
     // clear your memory pool after shutdown.
     int Result = ModelerApplication::Instance()->Run();

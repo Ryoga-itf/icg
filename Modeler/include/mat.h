@@ -1,6 +1,7 @@
 #ifndef __MATRIX_HEADER__
 #define __MATRIX_HEADER__
 
+#include <cstring>
 #include <iostream>
 
 //==========[ Forward References ]=============================================
