@@ -189,7 +189,38 @@ class Model : public ModelerView {
         glPopMatrix();
     }
 
-    void DrawArm(const double size = 0.4, const double length = 2.5) {}
+    void DrawArm(const double size = 0.4, const double length = 2.5) {
+        glPushMatrix();
+        glTranslated(-size / 2, 0, -size / 2);
+
+        setDiffuseColor(0.914f, 0.910f, 0.851f, 1.0f);
+        drawBox(size, length * 0.2857142857, size);
+        glTranslated(0, length * 0.2857142857, 0);
+
+        {
+            glTranslated(size / 2, 0, size / 2);
+            glTranslated(-size * 1.2 / 2, 0, -size * 1.2 / 2);
+            setDiffuseColor(0.584f, 0.784f, 0.785f, 1.0f);
+            drawBox(size * 1.2, length * 0.0408163265, size * 1.2);
+            glTranslated(0, length * 0.0408163265, 0);
+
+            setDiffuseColor(0.44f, 0.45f, 0.47f, 1.0f);
+            drawBox(size * 1.2, length * 0.5306122449, size * 1.2);
+            glTranslated(0, length * 0.5306122449, 0);
+
+            setDiffuseColor(0.584f, 0.784f, 0.785f, 1.0f);
+            drawBox(size * 1.2, length * 0.0408163265, size * 1.2);
+            glTranslated(0, length * 0.0408163265, 0);
+
+            glTranslated(size * 1.2 / 2, 0, size * 1.2 / 2);
+            glTranslated(-size / 2, 0, -size / 2);
+        }
+
+        setDiffuseColor(0.914f, 0.910f, 0.851f, 1.0f);
+        drawBox(size, length * 0.1020408163, size);
+
+        glPopMatrix();
+    }
 
     // オブジェクトの描画
     void draw() {
@@ -289,27 +320,7 @@ class Model : public ModelerView {
                 glPushMatrix();
                 glTranslated(-0.4, 0, 0);
                 glRotated(120, 0, 0, 1);
-                glTranslated(-0.4 / 2, 0, -0.4 / 2);
-
-                setDiffuseColor(0.914f, 0.910f, 0.851f, 1.0f);
-                drawBox(0.4, 0.7, 0.4);
-                glTranslated(0, 0.7, 0);
-
-                setDiffuseColor(0.584f, 0.784f, 0.785f, 1.0f);
-                drawBox(0.4, 0.1, 0.4);
-                glTranslated(0, 0.1, 0);
-
-                setDiffuseColor(0.44f, 0.45f, 0.47f, 1.0f);
-                drawBox(0.4, 1.3, 0.4);
-                glTranslated(0, 1.3, 0);
-
-                setDiffuseColor(0.584f, 0.784f, 0.785f, 1.0f);
-                drawBox(0.4, 0.1, 0.4);
-                glTranslated(0, 0.1, 0);
-
-                setDiffuseColor(0.914f, 0.910f, 0.851f, 1.0f);
-                drawBox(0.4, 0.25, 0.4);
-
+                DrawArm();
                 glPopMatrix();
             }
             // 腕
@@ -317,9 +328,7 @@ class Model : public ModelerView {
                 glPushMatrix();
                 glTranslated(0.4, 0, 0);
                 glRotated(-120, 0, 0, 1);
-                glTranslated(-0.4 / 2, 0, -0.4 / 2);
-                setDiffuseColor(0.914f, 0.910f, 0.851f, 1.0f);
-                drawBox(0.4, 2.25, 0.4);
+                DrawArm();
                 glPopMatrix();
             }
 
