@@ -171,7 +171,7 @@ class Model : public ModelerView {
     }
 
     // 脚
-    void DrawLeg(const double size = 0.45, const double height = 2.25) {
+    void DrawLeg(const double size = 0.45, const double height = 2.5) {
         glPushMatrix();
         glTranslated(-size / 2, 0, -size / 2);
 
@@ -307,18 +307,35 @@ class Model : public ModelerView {
 
             {
                 glPushMatrix();
-                glTranslated(-1.2 / 2, -0.2, -0.7 / 2);
+                glTranslated(-1.2 / 2, -0.2, -0.85 / 2);
                 setDiffuseColor(0.820f, 0.851f, 0.863f, 1.0f);
-                drawBox(1.2, 2.5, 0.7);
+                drawBox(1.2, 2.5, 0.85);
                 glPopMatrix();
             }
 
-            glTranslated(0, 1.75, 0);
+            glTranslated(0, 2.25, 0);
+
+            {
+                glPushMatrix();
+                glTranslated(0, 0, -0.85 / 2 - 0.1);
+
+                setDiffuseColor(0.396f, 0.698f, 0.678f, 1.0f);
+                glBegin(GL_TRIANGLE_STRIP);
+                glNormal3d(0, 0, 1);
+                glVertex3d(-0.1, 0, 0);
+                glVertex3d(-0.2, -1.75, 0);
+                glVertex3d(0.1, 0, 0);
+                glVertex3d(0, -2.2, 0);
+                glVertex3d(0.2, -1.75, 0);
+                glEnd();
+
+                glPopMatrix();
+            }
 
             // 腕
             {
                 glPushMatrix();
-                glTranslated(-0.4, 0, 0);
+                glTranslated(-0.4, -0.3, 0);
                 glRotated(120, 0, 0, 1);
                 DrawArm();
                 glPopMatrix();
@@ -326,13 +343,11 @@ class Model : public ModelerView {
             // 腕
             {
                 glPushMatrix();
-                glTranslated(0.4, 0, 0);
+                glTranslated(0.4, -0.3, 0);
                 glRotated(-120, 0, 0, 1);
                 DrawArm();
                 glPopMatrix();
             }
-
-            glTranslated(0, 0.5, 0);
 
             // 首
             {
