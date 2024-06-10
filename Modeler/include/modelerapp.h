@@ -77,7 +77,7 @@ class ModelerApplication {
     // Private for singleton
     ModelerApplication() : m_numControls(-1) { ps = 0; }
     ModelerApplication(const ModelerApplication &) {}
-    ModelerApplication &operator=(const ModelerApplication &) {}
+    ModelerApplication &operator=(const ModelerApplication &) { return *this; }
 
     // The instance
     static ModelerApplication *m_instance;

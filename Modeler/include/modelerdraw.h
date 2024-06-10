@@ -41,7 +41,7 @@ class ModelerDrawState {
   private:
     ModelerDrawState();
     ModelerDrawState(const ModelerDrawState &) {}
-    ModelerDrawState &operator=(const ModelerDrawState &) {}
+    ModelerDrawState &operator=(const ModelerDrawState &) { return *this; }
 
     static ModelerDrawState *m_instance;
 };
