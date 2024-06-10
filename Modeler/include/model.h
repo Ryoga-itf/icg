@@ -13,6 +13,8 @@
 #include "modelerdraw.h"
 #include <GL/gl.h>
 #include <cmath>
+#include <cstdlib>
+#include <utility>
 
 // フレーム番号の最大値
 int max_frame_count = 450;
@@ -148,6 +150,47 @@ class Model : public ModelerView {
         glPopMatrix();
     }
 
+    void DrawBox(double x1, double y1, double z1, double x2, double y2, double z2) {
+        if (x1 > x2) {
+            std::swap(x1, x2);
+        }
+        if (y1 > y2) {
+            std::swap(y1, y2);
+        }
+        if (z1 > z2) {
+            std::swap(z1, z2);
+        }
+        const auto w = x2 - x1;
+        const auto h = y2 - y1;
+        const auto d = z2 - z1;
+
+        glPushMatrix();
+        glTranslated(x1, y1, z1);
+        drawBox(w, h, d);
+        glPopMatrix();
+    }
+
+    // 脚
+    void DrawLeg(const double size = 0.45, const double height = 2.25) {
+        glPushMatrix();
+        glTranslated(-size / 2, 0, -size / 2);
+
+        setDiffuseColor(0.44f, 0.45f, 0.47f, 1.0f);
+        drawBox(size, height * 0.6666666667, size);
+
+        glTranslated(0, height * 0.6666666667, 0);
+        setDiffuseColor(0.584f, 0.784f, 0.785f, 1.0f);
+        drawBox(size, height * 0.0444444444, size);
+
+        glTranslated(0, height * 0.0444444444, 0);
+        setDiffuseColor(0.914f, 0.910f, 0.851f, 1.0f);
+        drawBox(size, height * 0.3333333333, size);
+
+        glPopMatrix();
+    }
+
+    void DrawArm(const double size = 0.4, const double length = 2.5) {}
+
     // オブジェクトの描画
     void draw() {
         // 〜〜〜〜〜〜〜〜〜〜〜〜〜〜〜〜〜〜〜〜〜〜〜〜〜〜〜〜〜〜〜〜〜〜〜
@@ -181,86 +224,126 @@ class Model : public ModelerView {
         // オブジェクトを描画
         //---------------------------------------------------------------------
 
-        glPushMatrix(); // 初期座標系を保存
+        glTranslated(0, -4, 0);
+        {
+            glPushMatrix(); // 初期座標系
+            setAmbientColor(0.75f, 0.75f, 0.75f);
+            setSpecularColor(1.0f, 1.0f, 1.0f);
+            setShininess(20.0f);
 
-        // 拡散反射光を設定
-        setDiffuseColor(0.4f, 0.3f, 0.0f, 1.0f);
-        // 環境光を設定
-        setAmbientColor(0.5f, 0.5f, 0.5f);
-        // 鏡面反射光を設定
-        setSpecularColor(1.0f, 1.0f, 1.0f);
-        // ハイライトの強さを設定
-        setShininess(20.0f);
+            // 台を描画
+            setDiffuseColor(1.0f, 1.0f, 1.0f, 1.0f);
+            glTranslated(-3, 0, -3);
+            drawBox(6, 0.3, 6);
 
-        drawBox(4, 0.3, 4);    // 台を描画
-        glTranslated(2, 0, 2); // 原点を台の中心に移動
+            glPopMatrix(); // 初期座標系
+        }
 
-        // ステップ１----------------------------------------------
+        // 脚
+        {
+            glPushMatrix();
+            glTranslated(-0.3, 0, 0);
+            DrawLeg();
+            glPopMatrix();
+        }
+        {
+            glPushMatrix();
+            glTranslated(0.3, 0, 0);
+            DrawLeg();
+            glPopMatrix();
+        }
 
-        glRotated(GetSliderValue(ARM1_ANGLE), 1, 0, 0); // 座標系を傾ける
-        // 拡散反射光を設定
-        setDiffuseColor(0.0f, 0.8f, 0.0f, 1.0f);
-        drawBox(0.2, 4, 0.2);  // アーム１の描画
-        glTranslated(0, 4, 0); // 原点をアーム１の先端に移動
+        {
+            glPushMatrix();
+            glTranslated(0, 2.2, 0);
+            {
+                glPushMatrix();
+                glRotated(-90, 1, 0, 0);
+                setDiffuseColor(0.584f, 0.784f, 0.785f, 1.0f);
+                drawCylinder(0.2, 1, 0.8);
+                glPopMatrix();
+            }
+            {
+                glPushMatrix();
+                glTranslated(0, 0.2, 0);
+                glRotated(-90, 1, 0, 0);
+                setDiffuseColor(0.44f, 0.45f, 0.47f, 1.0f);
+                drawCylinder(1.35, 0.8, 0.3);
+                glPopMatrix();
+            }
 
-        // ステップ２----------------------------------------------
+            glTranslated(0, 1.4, 0);
 
-        glRotated(GetSliderValue(ARM2_ANGLE), 1, 0, 0); // 座標系を傾ける
-        // 拡散反射光を設定
-        setDiffuseColor(0.8f, 0.8f, 0.0f, 1.0f);
-        drawBox(0.2, 2, 0.2);     // アーム２の描画
-        glTranslated(-0.5, 2, 0); // 原点をアーム２の先端に移動
+            {
+                glPushMatrix();
+                glTranslated(-1.2 / 2, -0.2, -0.7 / 2);
+                setDiffuseColor(0.820f, 0.851f, 0.863f, 1.0f);
+                drawBox(1.2, 2.5, 0.7);
+                glPopMatrix();
+            }
 
-        // ステップ３----------------------------------------------
+            glTranslated(0, 1.75, 0);
 
-        glPushMatrix();                                 // 座標系を保存
-        glRotated(GetSliderValue(ARM3_ANGLE), 1, 0, 0); // 座標系を傾ける
-        // 拡散反射光を設定
-        setDiffuseColor(0.8f, 0.0f, 0.0f, 1.0f);
-        drawBox(1, 1, 0.2); // アーム３の描画
+            // 腕
+            {
+                glPushMatrix();
+                glTranslated(-0.4, 0, 0);
+                glRotated(120, 0, 0, 1);
+                glTranslated(-0.4 / 2, 0, -0.4 / 2);
 
-        // 目の描画
-        glTranslated(0.0, 0.0, -0.2f);
-        glPushMatrix();
-        glTranslated(0.2f, 0.0, 0.0);
-        DrawEye();
-        glPopMatrix();
+                setDiffuseColor(0.914f, 0.910f, 0.851f, 1.0f);
+                drawBox(0.4, 0.7, 0.4);
+                glTranslated(0, 0.7, 0);
 
-        glTranslated(0.8f, 0.0, 0.0);
-        DrawEye();
+                setDiffuseColor(0.584f, 0.784f, 0.785f, 1.0f);
+                drawBox(0.4, 0.1, 0.4);
+                glTranslated(0, 0.1, 0);
 
-        // ステップ４----------------------------------------------
+                setDiffuseColor(0.44f, 0.45f, 0.47f, 1.0f);
+                drawBox(0.4, 1.3, 0.4);
+                glTranslated(0, 1.3, 0);
 
-        glPopMatrix();                                  // 座標系を復元
-        glRotated(GetSliderValue(ARM4_ANGLE), 1, 0, 0); // 座標系を傾ける
-        // 拡散反射光を設定
-        setDiffuseColor(0.0f, 0.0f, 0.8f, 1.0f);
-        drawBox(1, 1, 0.2); // アーム４の描画
+                setDiffuseColor(0.584f, 0.784f, 0.785f, 1.0f);
+                drawBox(0.4, 0.1, 0.4);
+                glTranslated(0, 0.1, 0);
 
-        glTranslated(0.5, 1, -0.5);
-        ps->SpawnParticles(CameraTransforms);
+                setDiffuseColor(0.914f, 0.910f, 0.851f, 1.0f);
+                drawBox(0.4, 0.25, 0.4);
 
-        glPopMatrix(); // 初期座標系を復元
+                glPopMatrix();
+            }
+            // 腕
+            {
+                glPushMatrix();
+                glTranslated(0.4, 0, 0);
+                glRotated(-120, 0, 0, 1);
+                glTranslated(-0.4 / 2, 0, -0.4 / 2);
+                setDiffuseColor(0.914f, 0.910f, 0.851f, 1.0f);
+                drawBox(0.4, 2.25, 0.4);
+                glPopMatrix();
+            }
 
-        //---------------------------------------------------------------------
+            glTranslated(0, 0.5, 0);
 
-        // glTranslated(posX, posY, 0);
-        // drawSphere(0.5);
-        // 振り子の軸を描画
+            // 首
+            {
+                glPushMatrix();
+                glTranslated(-0.4 / 2, 0, -0.4 / 2);
+                drawBox(0.4, 0.3, 0.4);
+                glPopMatrix();
+            }
 
-        glBegin(GL_LINES);
+            glTranslated(0, 0.3, 0);
 
-        glVertex3d(0, 0, 0);
-
-        glVertex3d(pos[0], pos[1], pos[2]);
-
-        glEnd();
-
-        // ボールを描画
-
-        glTranslated(pos[0], pos[1], pos[2]);
-
-        drawSphere(0.5);
+            // 顔
+            {
+                glPushMatrix();
+                glTranslated(-2.0 / 2, 0, -1.4 / 2);
+                drawBox(2, 1.75, 1.4);
+                glPopMatrix();
+            }
+            glPopMatrix();
+        }
 
         // 描画終了
         EndPaint();
