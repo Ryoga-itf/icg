@@ -1,6 +1,7 @@
 #ifndef __MATRIX_HEADER__
 #define __MATRIX_HEADER__
 
+#include <cmath>
 #include <cstring>
 #include <iostream>
 
@@ -451,9 +452,11 @@ template <class T> class Mat4 {
         // Loop over cols of a from left to right, eliminating above and below diag
         for (j = 0; j < 4; j++) { // Find largest pivot in column j among rows j..2
             i1 = j;               // Row with largest pivot candidate
-            for (i = j + 1; i < 4; i++)
-                if (fabs(a[i][j]) > fabs(a[i1][j]))
+            for (i = j + 1; i < 4; i++) {
+                if (std::fabs(a[i][j]) > std::fabs(a[i1][j])) {
                     i1 = i;
+                }
+            }
 
             // Swap rows i1 and j in a and b to put pivot on diagonal
             for (i = 0; i < 4; i++) {
@@ -472,7 +475,7 @@ template <class T> class Mat4 {
             }
 
             // Eliminate off-diagonal elems in col j of a, doing identical ops to b
-            for (i = 0; i < 4; i++)
+            for (i = 0; i < 4; i++) {
                 if (i != j) {
                     scale = a[i][j];
                     for (i1 = 0; i1 < 4; i1++) {
@@ -480,6 +483,7 @@ template <class T> class Mat4 {
                         a[i][i1] -= scale * a[j][i1];
                     }
                 }
+            }
         }
         return b;
     }
@@ -596,12 +600,14 @@ template <class T> inline std::ostream &operator<<(std::ostream &os, const Mat3<
     os << m.n[0] << " " << m.n[1] << " " << m.n[2];
     os << m.n[3] << " " << m.n[4] << " " << m.n[5];
     os << m.n[6] << " " << m.n[7] << " " << m.n[8];
+    return os;
 }
 
 template <class T> inline std::istream &operator>>(std::istream &is, Mat3<T> &m) {
     is >> m.n[0] >> m.n[1] >> m.n[2];
     is >> m.n[3] >> m.n[4] >> m.n[5];
     is >> m.n[6] >> m.n[7] >> m.n[8];
+    return is;
 }
 
 template <class T> inline Mat4<T> Mat4<T>::createRotation(T angle, float x, float y, float z) {
@@ -716,6 +722,7 @@ template <class T> inline std::istream &operator>>(std::istream &is, Mat4<T> &m)
     is >> m.n[4] >> m.n[5] >> m.n[6] >> m.n[7];
     is >> m.n[8] >> m.n[9] >> m.n[10] >> m.n[11];
     is >> m.n[12] >> m.n[13] >> m.n[14] >> m.n[15];
+    return is;
 }
 
 template <class T> inline Vec3<T> clamp(const Vec3<T> &other) {
