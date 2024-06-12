@@ -189,6 +189,7 @@ class Model : public ModelerView {
         glPopMatrix();
     }
 
+    // 腕
     void DrawArm(const double size = 0.4, const double length = 2.5) {
         glPushMatrix();
         glTranslated(-size / 2, 0, -size / 2);
@@ -221,6 +222,21 @@ class Model : public ModelerView {
 
         glPopMatrix();
     }
+
+    void DrawTie(const double width = 0.2, const double length = 2.2) {
+        setDiffuseColor(0.396f, 0.698f, 0.678f, 1.0f);
+        glBegin(GL_TRIANGLE_STRIP);
+        glNormal3d(0, 0, 1);
+        glVertex3d(-width / 2, 0, 0);
+        glVertex3d(-width, -length * 0.7954545455, 0);
+        glVertex3d(width / 2, 0, 0);
+        glVertex3d(0, -length, 0);
+        glVertex3d(width, -length * 0.7954545455, 0);
+        glEnd();
+    }
+
+    // 身体
+    void DrawBody() {}
 
     // オブジェクトの描画
     void draw() {
@@ -255,13 +271,13 @@ class Model : public ModelerView {
         // オブジェクトを描画
         //---------------------------------------------------------------------
 
+        setAmbientColor(0.75f, 0.75f, 0.75f);
+        setSpecularColor(0.2f, 0.2f, 0.2f);
+        setShininess(20.0f);
+
         glTranslated(0, -4, 0);
         {
             glPushMatrix(); // 初期座標系
-            setAmbientColor(0.75f, 0.75f, 0.75f);
-            setSpecularColor(1.0f, 1.0f, 1.0f);
-            setShininess(20.0f);
-
             // 台を描画
             setDiffuseColor(1.0f, 1.0f, 1.0f, 1.0f);
             glTranslated(-3, 0, -3);
@@ -291,7 +307,7 @@ class Model : public ModelerView {
                 glPushMatrix();
                 glRotated(-90, 1, 0, 0);
                 setDiffuseColor(0.584f, 0.784f, 0.785f, 1.0f);
-                drawCylinder(0.2, 1, 0.8);
+                drawCylinder(0.2, 1.2, 1.0);
                 glPopMatrix();
             }
             {
@@ -299,7 +315,7 @@ class Model : public ModelerView {
                 glTranslated(0, 0.2, 0);
                 glRotated(-90, 1, 0, 0);
                 setDiffuseColor(0.44f, 0.45f, 0.47f, 1.0f);
-                drawCylinder(1.35, 0.8, 0.3);
+                drawCylinder(1.35, 1.0, 0.3);
                 glPopMatrix();
             }
 
@@ -315,20 +331,11 @@ class Model : public ModelerView {
 
             glTranslated(0, 2.25, 0);
 
+            // ネクタイ
             {
                 glPushMatrix();
                 glTranslated(0, 0, -0.85 / 2 - 0.1);
-
-                setDiffuseColor(0.396f, 0.698f, 0.678f, 1.0f);
-                glBegin(GL_TRIANGLE_STRIP);
-                glNormal3d(0, 0, 1);
-                glVertex3d(-0.1, 0, 0);
-                glVertex3d(-0.2, -1.75, 0);
-                glVertex3d(0.1, 0, 0);
-                glVertex3d(0, -2.2, 0);
-                glVertex3d(0.2, -1.75, 0);
-                glEnd();
-
+                DrawTie();
                 glPopMatrix();
             }
 
@@ -362,8 +369,156 @@ class Model : public ModelerView {
             // 顔
             {
                 glPushMatrix();
-                glTranslated(-2.0 / 2, 0, -1.4 / 2);
-                drawBox(2, 1.75, 1.4);
+                glTranslated(-1.8 / 2, 0, -1.4 / 2);
+                drawBox(1.8, 1.75, 1.4);
+                glPopMatrix();
+            }
+            // 後ろ髪
+            {
+                glPushMatrix();
+                glTranslated(-2.2 / 2, 0.2, -1.0 / 2 + 0.4);
+                setDiffuseColor(0.584f, 0.784f, 0.785f, 1.0f);
+                drawBox(2.2, 1.75, 1.0);
+                glPopMatrix();
+            }
+            {
+                glPushMatrix();
+                glTranslated(-2.2 / 2, 1.2, -1.4 / 2 - 0.2);
+                setDiffuseColor(0.584f, 0.784f, 0.785f, 1.0f);
+                drawBox(2.2, 0.75, 1.4);
+
+                glBegin(GL_QUADS);
+
+                glNormal3d(0.0, 0.0, -1.0);
+                glVertex3d(0.0, 0.0, 0.0);
+                glVertex3d(0.0, -0.4, 0.0);
+                glVertex3d(1.0, -0.1, 0.0);
+                glVertex3d(1.0, 0.0, 0.0);
+
+                glNormal3d(0.0, -1.0, 0.0);
+                glVertex3d(0.0, 0.0, 0.0);
+                glVertex3d(1.0, 0.0, 0.0);
+                glVertex3d(1.0, 0.0, 1.0);
+                glVertex3d(0.0, 0.0, 1.0);
+
+                glNormal3d(-1.0, 0.0, 0.0);
+                glVertex3d(0.0, 0.0, 0.0);
+                glVertex3d(0.0, 0.0, 1.0);
+                glVertex3d(0.0, -0.4, 1.0);
+                glVertex3d(0.0, -0.4, 0.0);
+
+                glNormal3d(0.0, 0.0, 1.0);
+                glVertex3d(0.0, 0.0, 1.0);
+                glVertex3d(1.0, 0.0, 1.0);
+                glVertex3d(1.0, -0.4, 1.0);
+                glVertex3d(0.0, -0.4, 1.0);
+
+                glNormal3d(0.0, 1.0, 0.0);
+                glVertex3d(0.0, -0.4, 0.0);
+                glVertex3d(0.0, -0.4, 1.0);
+                glVertex3d(1.0, -0.1, 1.0);
+                glVertex3d(1.0, -0.1, 0.0);
+
+                glNormal3d(1.0, 0.0, 0.0);
+                glVertex3d(1.0, 0.0, 0.0);
+                glVertex3d(1.0, -0.1, 0.0);
+                glVertex3d(1.0, -0.1, 1.0);
+                glVertex3d(1.0, 0.0, 1.0);
+
+                glEnd();
+
+                glTranslated(1.2, 0, 0);
+                glBegin(GL_QUADS);
+
+                glNormal3d(0.0, 0.0, -1.0);
+                glVertex3d(0.0, 0.0, 0.0);
+                glVertex3d(0.0, -0.1, 0.0);
+                glVertex3d(1.0, -0.4, 0.0);
+                glVertex3d(1.0, 0.0, 0.0);
+
+                glNormal3d(0.0, -1.0, 0.0);
+                glVertex3d(0.0, 0.0, 0.0);
+                glVertex3d(1.0, 0.0, 0.0);
+                glVertex3d(1.0, 0.0, 1.0);
+                glVertex3d(0.0, 0.0, 1.0);
+
+                glNormal3d(-1.0, 0.0, 0.0);
+                glVertex3d(0.0, 0.0, 0.0);
+                glVertex3d(0.0, 0.0, 1.0);
+                glVertex3d(0.0, -0.1, 1.0);
+                glVertex3d(0.0, -0.1, 0.0);
+
+                glNormal3d(0.0, 0.0, 1.0);
+                glVertex3d(0.0, 0.0, 1.0);
+                glVertex3d(1.0, 0.0, 1.0);
+                glVertex3d(1.0, -0.1, 1.0);
+                glVertex3d(0.0, -0.1, 1.0);
+
+                glNormal3d(0.0, 1.0, 0.0);
+                glVertex3d(0.0, -0.1, 0.0);
+                glVertex3d(0.0, -0.1, 1.0);
+                glVertex3d(1.0, -0.4, 1.0);
+                glVertex3d(1.0, -0.4, 0.0);
+
+                glNormal3d(1.0, 0.0, 0.0);
+                glVertex3d(1.0, 0.0, 0.0);
+                glVertex3d(1.0, -0.4, 0.0);
+                glVertex3d(1.0, -0.4, 1.0);
+                glVertex3d(1.0, 0.0, 1.0);
+
+                glEnd();
+
+                glTranslated(-0.1, -0.6, 0);
+                glRotated(45, 0, 0, 1);
+                drawBox(1, 0.85, 1.4);
+
+                glPopMatrix();
+            }
+            {
+                glPushMatrix();
+                glTranslated(1.2, -3.5 / 2, -0.5 / 2);
+                setDiffuseColor(0.584f, 0.784f, 0.785f, 1.0f);
+                drawBox(0.5, 3.5, 0.5);
+
+                setDiffuseColor(0.710f, 0.271f, 0.463f, 1.0f);
+                {
+                    const double size = 1.5;
+                    glPushMatrix();
+                    glTranslated(-0.1, 3.5 - size / 2, -1.5 / 2);
+                    glRotated(45, 1, 0, 0);
+                    drawBox(0.2, size, 0.2);
+                    glTranslated(0, size - 0.2, 0);
+                    drawBox(0.2, 0.2, size);
+                    glTranslated(0, 0, size - 0.2);
+                    drawBox(0.2, -size + 0.2, 0.2);
+                    glTranslated(0, -size + 0.2, 0.2);
+                    drawBox(0.2, 0.2, -size + 0.2);
+                    glPopMatrix();
+                }
+
+                glPopMatrix();
+            }
+            {
+                glPushMatrix();
+                glTranslated(-1.7, -3.5 / 2, -0.5 / 2);
+                setDiffuseColor(0.584f, 0.784f, 0.785f, 1.0f);
+                drawBox(0.5, 3.5, 0.5);
+
+                setDiffuseColor(0.710f, 0.271f, 0.463f, 1.0f);
+                {
+                    const double size = 1.5;
+                    glPushMatrix();
+                    glTranslated(0.4, 3.5 - size / 2, -1.5 / 2);
+                    glRotated(45, 1, 0, 0);
+                    drawBox(0.2, size, 0.2);
+                    glTranslated(0, size - 0.2, 0);
+                    drawBox(0.2, 0.2, size);
+                    glTranslated(0, 0, size - 0.2);
+                    drawBox(0.2, -size + 0.2, 0.2);
+                    glTranslated(0, -size + 0.2, 0.2);
+                    drawBox(0.2, 0.2, -size + 0.2);
+                    glPopMatrix();
+                }
                 glPopMatrix();
             }
             glPopMatrix();
