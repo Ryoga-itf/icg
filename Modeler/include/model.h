@@ -99,11 +99,16 @@ class Model : public ModelerView {
         //-----------------------------------------------------------------
 
         // 〜〜〜プログラムを記述〜〜〜
-        const double k = std::sqrt(G / r);
-        angle_next = -angle_prev + 2 * angle_curr - k * k * dt * dt * std::sin(angle_curr);
-        angle_prev = angle_curr;
-        angle_curr = angle_next;
-        pos = Vec3d(r * std::sin(angle_next), -r * std::cos(angle_next), 0);
+        const double delta = frame_count / 30.0;
+
+        SetSliderValue(L_HEAR_ANGLE, 5.0 + 5.0 * std::cos(delta * M_PI + M_PI));
+        SetSliderValue(R_HEAR_ANGLE, -5.0 + 5.0 * std::cos(delta * M_PI));
+
+        SetSliderValue(NECK_X_ANGLE, 0.0 + 5.0 * std::sin(delta * M_PI / 2));
+
+        SetSliderValue(R_ARM_X_ANGLE, -15.0 + 15.0 * std::cos(delta * M_PI));
+        SetSliderValue(R_ARM_Z_ANGLE, -120 + 15.0 * std::sin(delta * M_PI));
+        SetSliderValue(L_ARM_Z_ANGLE, 140 + 3.0 * std::sin(delta * M_PI));
 
         //-----------------------------------------------------------------
     }
@@ -115,8 +120,7 @@ class Model : public ModelerView {
         //-----------------------------------------------------------------
 
         // 〜〜〜プログラムを記述〜〜〜
-        angle_prev = angle_curr;
-        angle_curr = angle_next;
+        SetAutomaticAnimation();
 
         //-----------------------------------------------------------------
     }
