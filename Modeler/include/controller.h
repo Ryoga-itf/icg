@@ -16,8 +16,10 @@ extern int max_frame_count;
 // コントローラ識別用の列挙子
 enum CONTROLLERS {
     FRAME_CONTROLS, // フレームコントローラ（変更しないこと)
-    L_ARM_ANGLE,
-    R_ARM_ANGLE,
+    L_ARM_Z_ANGLE,
+    L_ARM_X_ANGLE,
+    R_ARM_Z_ANGLE,
+    R_ARM_X_ANGLE,
     L_HEAR_ANGLE,
     R_HEAR_ANGLE,
     NECK_X_ANGLE,
@@ -31,8 +33,10 @@ inline void SetController(ModelerControl *controls) {
     // フレーム番号の制御用スライダ
     controls[FRAME_CONTROLS] = ModelerControl("Frame Number", 0, (float)max_frame_count, 1, 0);
 
-    controls[L_ARM_ANGLE] = ModelerControl("Left Arm Angle", -180.0f, 180.0f, 1.0f, 120.0f);
-    controls[R_ARM_ANGLE] = ModelerControl("Right Arm Angle", -180.0f, 180.0f, 1.0f, -120.0f);
+    controls[L_ARM_Z_ANGLE] = ModelerControl("Left Arm-Z Angle", -180.0f, 180.0f, 1.0f, 120.0f);
+    controls[L_ARM_X_ANGLE] = ModelerControl("Left Arm-X Angle", -180.0f, 180.0f, 1.0f, 0.0f);
+    controls[R_ARM_Z_ANGLE] = ModelerControl("Right Arm-Z Angle", -180.0f, 180.0f, 1.0f, -120.0f);
+    controls[R_ARM_X_ANGLE] = ModelerControl("Right Arm-X Angle", -180.0f, 180.0f, 1.0f, 0.0f);
     controls[L_HEAR_ANGLE] = ModelerControl("Left Hear Angle", -180.0f, 180.0f, 1.0f, 0.0f);
     controls[R_HEAR_ANGLE] = ModelerControl("Right Hear Angle", -180.0f, 180.0f, 1.0f, 0.0f);
     controls[NECK_X_ANGLE] = ModelerControl("Neck-X Angle", -90.0f, 90.0f, 1.0f, 0.0f);

@@ -367,7 +367,8 @@ class Model : public ModelerView {
             {
                 glPushMatrix();
                 glTranslated(-0.4, -0.3, 0);
-                glRotated(GetSliderValue(L_ARM_ANGLE), 0, 0, 1);
+                glRotated(GetSliderValue(L_ARM_Z_ANGLE), 0, 0, 1);
+                glRotated(GetSliderValue(L_ARM_X_ANGLE), 1, 0, 0);
                 DrawArm();
                 glPopMatrix();
             }
@@ -375,7 +376,8 @@ class Model : public ModelerView {
             {
                 glPushMatrix();
                 glTranslated(0.4, -0.3, 0);
-                glRotated(GetSliderValue(R_ARM_ANGLE), 0, 0, 1);
+                glRotated(GetSliderValue(R_ARM_Z_ANGLE), 0, 0, 1);
+                glRotated(GetSliderValue(R_ARM_X_ANGLE), 1, 0, 0);
                 DrawArm(true);
                 glPopMatrix();
             }
