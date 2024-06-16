@@ -34,23 +34,14 @@ class Model : public ModelerView {
     //-------------------------------------------------------------------------
 
     // 〜〜〜変数を追加〜〜〜
-
-    // 時間刻み
-    double dt;
-
-    // 重力加速度
-    double G;
-
-    // 振り子の長さ
-    double r;
-
-    // 振り子の角度
-    double angle_prev; // θ(t-dt)
-    double angle_curr; // θ(t)
-    double angle_next; // θ(t+dt)
-
-    // ボールの位置座標
-    Vec3d pos;
+    double l_hear_angle;
+    double r_hear_angle;
+    double neck_x_angle;
+    double neck_y_angle;
+    double r_arm_x_angle;
+    double r_arm_z_angle;
+    double l_arm_x_angle;
+    double l_arm_z_angle;
 
     // 〜〜〜〜〜〜〜〜〜〜〜〜〜〜〜〜〜〜〜〜〜〜〜〜〜〜〜〜〜〜〜〜〜〜〜
 
@@ -69,21 +60,14 @@ class Model : public ModelerView {
         //---------------------------------------------------------------------
 
         // 〜〜〜変数を初期化〜〜〜
-
-        // 時間刻みを設定
-        dt = 0.06;
-
-        // 重力加速度を設定
-        G = 9.8;
-
-        // 振り子の長さを設定
-        r = 6.0;
-
-        // 振り子の角度を初期化
-        angle_prev = angle_curr = angle_next = M_PI / 4.0;
-
-        // ボールの位置座標を初期化
-        pos = Vec3d(r * std::sin(angle_next), -r * std::cos(angle_next), 0);
+        l_hear_angle = GetSliderValue(L_HEAR_ANGLE);
+        r_hear_angle = GetSliderValue(R_HEAR_ANGLE);
+        neck_x_angle = GetSliderValue(NECK_X_ANGLE);
+        neck_y_angle = GetSliderValue(NECK_Y_ANGLE);
+        r_arm_x_angle = GetSliderValue(R_ARM_X_ANGLE);
+        r_arm_z_angle = GetSliderValue(R_ARM_Z_ANGLE);
+        l_arm_x_angle = GetSliderValue(L_ARM_X_ANGLE);
+        l_arm_z_angle = GetSliderValue(L_ARM_Z_ANGLE);
 
         // 〜〜〜〜〜〜〜〜〜〜〜〜〜〜〜〜〜〜〜〜〜〜〜〜〜〜〜〜〜〜〜〜〜〜〜
     }
@@ -101,14 +85,14 @@ class Model : public ModelerView {
         // 〜〜〜プログラムを記述〜〜〜
         const double delta = frame_count / 30.0;
 
-        SetSliderValue(L_HEAR_ANGLE, 5.0 + 5.0 * std::cos(delta * M_PI + M_PI));
-        SetSliderValue(R_HEAR_ANGLE, -5.0 + 5.0 * std::cos(delta * M_PI));
+        l_hear_angle = GetSliderValue(L_HEAR_ANGLE) + 5.0 + 5.0 * std::cos(delta * M_PI + M_PI);
+        r_hear_angle = GetSliderValue(R_HEAR_ANGLE) - 5.0 + 5.0 * std::cos(delta * M_PI);
 
-        SetSliderValue(NECK_X_ANGLE, 0.0 + 5.0 * std::sin(delta * M_PI / 2));
+        neck_x_angle = GetSliderValue(NECK_X_ANGLE) + 5.0 * std::sin(delta * M_PI / 2.0);
 
-        SetSliderValue(R_ARM_X_ANGLE, -15.0 + 15.0 * std::cos(delta * M_PI));
-        SetSliderValue(R_ARM_Z_ANGLE, -120 + 15.0 * std::sin(delta * M_PI));
-        SetSliderValue(L_ARM_Z_ANGLE, 140 + 3.0 * std::sin(delta * M_PI));
+        r_arm_x_angle = GetSliderValue(R_ARM_X_ANGLE) - 15.0 + 15.0 * std::cos(delta * M_PI);
+        r_arm_z_angle = GetSliderValue(R_ARM_Z_ANGLE) + 15.0 * std::sin(delta * M_PI);
+        l_arm_z_angle = GetSliderValue(L_ARM_Z_ANGLE) + 3.0 * std::sin(delta * M_PI);
 
         //-----------------------------------------------------------------
     }
@@ -371,8 +355,8 @@ class Model : public ModelerView {
             {
                 glPushMatrix();
                 glTranslated(-0.4, -0.3, 0);
-                glRotated(GetSliderValue(L_ARM_Z_ANGLE), 0, 0, 1);
-                glRotated(GetSliderValue(L_ARM_X_ANGLE), 1, 0, 0);
+                glRotated(l_arm_z_angle, 0, 0, 1);
+                glRotated(l_arm_x_angle, 1, 0, 0);
                 DrawArm();
                 glPopMatrix();
             }
@@ -380,15 +364,15 @@ class Model : public ModelerView {
             {
                 glPushMatrix();
                 glTranslated(0.4, -0.3, 0);
-                glRotated(GetSliderValue(R_ARM_Z_ANGLE), 0, 0, 1);
-                glRotated(GetSliderValue(R_ARM_X_ANGLE), 1, 0, 0);
+                glRotated(r_arm_z_angle, 0, 0, 1);
+                glRotated(r_arm_x_angle, 1, 0, 0);
                 DrawArm(true);
                 glPopMatrix();
             }
 
             // 首
-            glRotated(GetSliderValue(NECK_X_ANGLE), 1, 0, 0);
-            glRotated(GetSliderValue(NECK_Y_ANGLE), 0, 1, 0);
+            glRotated(neck_x_angle, 1, 0, 0);
+            glRotated(neck_y_angle, 0, 1, 0);
             {
                 glPushMatrix();
                 glTranslated(-0.4 / 2, 0, -0.4 / 2);
@@ -513,7 +497,7 @@ class Model : public ModelerView {
                 glTranslated(1.2, 3.5 / 2, -0.5 / 2);
                 {
                     glPushMatrix();
-                    glRotated(GetSliderValue(L_HEAR_ANGLE), 0, 0, 1);
+                    glRotated(l_hear_angle, 0, 0, 1);
                     setDiffuseColor(0.584f, 0.784f, 0.785f, 1.0f);
                     drawBox(0.5, -3.5, 0.5);
                     glPopMatrix();
@@ -542,7 +526,7 @@ class Model : public ModelerView {
                 glTranslated(-1.2, 3.5 / 2, -0.5 / 2);
                 {
                     glPushMatrix();
-                    glRotated(GetSliderValue(R_HEAR_ANGLE), 0, 0, 1);
+                    glRotated(r_hear_angle, 0, 0, 1);
                     setDiffuseColor(0.584f, 0.784f, 0.785f, 1.0f);
                     drawBox(-0.5, -3.5, 0.5);
                     glPopMatrix();

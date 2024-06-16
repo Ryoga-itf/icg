@@ -33,7 +33,7 @@ inline void SetController(ModelerControl *controls) {
     // フレーム番号の制御用スライダ
     controls[FRAME_CONTROLS] = ModelerControl("Frame Number", 0, (float)max_frame_count, 1, 0);
 
-    controls[L_ARM_Z_ANGLE] = ModelerControl("Left Arm-Z Angle", -180.0f, 180.0f, 1.0f, 120.0f);
+    controls[L_ARM_Z_ANGLE] = ModelerControl("Left Arm-Z Angle", -180.0f, 180.0f, 1.0f, 140.0f);
     controls[L_ARM_X_ANGLE] = ModelerControl("Left Arm-X Angle", -180.0f, 180.0f, 1.0f, 0.0f);
     controls[R_ARM_Z_ANGLE] = ModelerControl("Right Arm-Z Angle", -180.0f, 180.0f, 1.0f, -120.0f);
     controls[R_ARM_X_ANGLE] = ModelerControl("Right Arm-X Angle", -180.0f, 180.0f, 1.0f, 0.0f);
