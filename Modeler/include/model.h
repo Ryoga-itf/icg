@@ -484,7 +484,7 @@ class Model : public ModelerView {
                 {
                     const double size = 1.5;
                     glPushMatrix();
-                    glTranslated(-0.1, 3.5 - size / 2, -1.5 / 2);
+                    glTranslated(-0.1, 3.5 - size / 2 + 0.3, -1.5 / 2);
                     glRotated(45, 1, 0, 0);
                     drawBox(0.2, size, 0.2);
                     glTranslated(0, size - 0.2, 0);
@@ -508,7 +508,7 @@ class Model : public ModelerView {
                 {
                     const double size = 1.5;
                     glPushMatrix();
-                    glTranslated(0.4, 3.5 - size / 2, -1.5 / 2);
+                    glTranslated(0.4, 3.5 - size / 2 + 0.3, -1.5 / 2);
                     glRotated(45, 1, 0, 0);
                     drawBox(0.2, size, 0.2);
                     glTranslated(0, size - 0.2, 0);
