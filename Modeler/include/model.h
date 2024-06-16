@@ -189,8 +189,27 @@ class Model : public ModelerView {
         glPopMatrix();
     }
 
+    void DrawGreenOnion(const double size = 0.2, const double length = 2.0) {
+        glPushMatrix();
+
+        glTranslated(-size / 2, -size, -size / 2);
+        glRotated(-90, 1, 0, 0);
+        setDiffuseColor(1.0f, 1.0f, 1.0f, 1.0f);
+        drawBox(size, length * 0.6, size);
+
+        glTranslated(0, length * 0.6, 0);
+        setDiffuseColor(0.451f, 0.890f, 0.286f, 1.0f);
+        drawBox(size, length * 0.4, size);
+
+        glRotated(30, 0, 0, 1);
+        setDiffuseColor(0.451f, 0.890f, 0.286f, 1.0f);
+        drawBox(size, length * 0.3, size);
+
+        glPopMatrix();
+    }
+
     // 腕
-    void DrawArm(const double size = 0.4, const double length = 2.5) {
+    void DrawArm(const bool holdGreenOnion = false, const double size = 0.4, const double length = 2.5) {
         glPushMatrix();
         glTranslated(-size / 2, 0, -size / 2);
 
@@ -219,6 +238,11 @@ class Model : public ModelerView {
 
         setDiffuseColor(0.914f, 0.910f, 0.851f, 1.0f);
         drawBox(size, length * 0.1020408163, size);
+
+        if (holdGreenOnion) {
+            glTranslated(size / 2, length * 0.1020408163, size / 2);
+            DrawGreenOnion();
+        }
 
         glPopMatrix();
     }
@@ -315,7 +339,7 @@ class Model : public ModelerView {
                 glTranslated(0, 0.2, 0);
                 glRotated(-90, 1, 0, 0);
                 setDiffuseColor(0.44f, 0.45f, 0.47f, 1.0f);
-                drawCylinder(1.35, 1.0, 0.3);
+                drawCylinder(1.35, 1.0, 0.2);
                 glPopMatrix();
             }
 
@@ -343,7 +367,7 @@ class Model : public ModelerView {
             {
                 glPushMatrix();
                 glTranslated(-0.4, -0.3, 0);
-                glRotated(120, 0, 0, 1);
+                glRotated(GetSliderValue(L_ARM_ANGLE), 0, 0, 1);
                 DrawArm();
                 glPopMatrix();
             }
@@ -351,15 +375,18 @@ class Model : public ModelerView {
             {
                 glPushMatrix();
                 glTranslated(0.4, -0.3, 0);
-                glRotated(-120, 0, 0, 1);
-                DrawArm();
+                glRotated(GetSliderValue(R_ARM_ANGLE), 0, 0, 1);
+                DrawArm(true);
                 glPopMatrix();
             }
 
             // 首
+            glRotated(GetSliderValue(NECK_X_ANGLE), 1, 0, 0);
+            glRotated(GetSliderValue(NECK_Y_ANGLE), 0, 1, 0);
             {
                 glPushMatrix();
                 glTranslated(-0.4 / 2, 0, -0.4 / 2);
+                setDiffuseColor(0.914f, 0.910f, 0.851f, 1.0f);
                 drawBox(0.4, 0.3, 0.4);
                 glPopMatrix();
             }
@@ -370,6 +397,7 @@ class Model : public ModelerView {
             {
                 glPushMatrix();
                 glTranslated(-1.8 / 2, 0, -1.4 / 2);
+                setDiffuseColor(0.914f, 0.910f, 0.851f, 1.0f);
                 drawBox(1.8, 1.75, 1.4);
                 glPopMatrix();
             }
@@ -476,15 +504,20 @@ class Model : public ModelerView {
             }
             {
                 glPushMatrix();
-                glTranslated(1.2, -3.5 / 2, -0.5 / 2);
-                setDiffuseColor(0.584f, 0.784f, 0.785f, 1.0f);
-                drawBox(0.5, 3.5, 0.5);
+                glTranslated(1.2, 3.5 / 2, -0.5 / 2);
+                {
+                    glPushMatrix();
+                    glRotated(GetSliderValue(L_HEAR_ANGLE), 0, 0, 1);
+                    setDiffuseColor(0.584f, 0.784f, 0.785f, 1.0f);
+                    drawBox(0.5, -3.5, 0.5);
+                    glPopMatrix();
+                }
 
                 setDiffuseColor(0.710f, 0.271f, 0.463f, 1.0f);
                 {
                     const double size = 1.5;
                     glPushMatrix();
-                    glTranslated(-0.1, 3.5 - size / 2 + 0.3, -1.5 / 2);
+                    glTranslated(-0.1, -size / 2 + 0.3, -1.5 / 2);
                     glRotated(45, 1, 0, 0);
                     drawBox(0.2, size, 0.2);
                     glTranslated(0, size - 0.2, 0);
@@ -500,15 +533,20 @@ class Model : public ModelerView {
             }
             {
                 glPushMatrix();
-                glTranslated(-1.7, -3.5 / 2, -0.5 / 2);
-                setDiffuseColor(0.584f, 0.784f, 0.785f, 1.0f);
-                drawBox(0.5, 3.5, 0.5);
+                glTranslated(-1.2, 3.5 / 2, -0.5 / 2);
+                {
+                    glPushMatrix();
+                    glRotated(GetSliderValue(R_HEAR_ANGLE), 0, 0, 1);
+                    setDiffuseColor(0.584f, 0.784f, 0.785f, 1.0f);
+                    drawBox(-0.5, -3.5, 0.5);
+                    glPopMatrix();
+                }
 
                 setDiffuseColor(0.710f, 0.271f, 0.463f, 1.0f);
                 {
                     const double size = 1.5;
                     glPushMatrix();
-                    glTranslated(0.4, 3.5 - size / 2 + 0.3, -1.5 / 2);
+                    glTranslated(-0.1, -size / 2 + 0.3, -1.5 / 2);
                     glRotated(45, 1, 0, 0);
                     drawBox(0.2, size, 0.2);
                     glTranslated(0, size - 0.2, 0);
