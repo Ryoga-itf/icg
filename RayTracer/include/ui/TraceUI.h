@@ -10,9 +10,9 @@
 // who the hell cares if my identifiers are longer than 255 characters:
 #pragma warning(disable : 4786)
 
-#include <math.h>
-#include "../vecmath/vec.h"
 #include "../vecmath/mat.h"
+#include "../vecmath/vec.h"
+#include <math.h>
 
 #include <string>
 
@@ -21,50 +21,44 @@ using std::string;
 class RayTracer;
 
 class TraceUI {
-public:
-	TraceUI()
-		: m_nDepth(0), m_nSize(150), 
-		m_displayDebuggingInfo( false ),
+  public:
+    TraceUI()
+        : m_nDepth(0), m_nSize(150), m_displayDebuggingInfo(false),
 
-		m_bsp_enabled_value( false ), 
+          m_bsp_enabled_value(false),
 
-		raytracer( 0 )
+          raytracer(0)
 
-	{ }
+    {}
 
-	virtual int		run() = 0;
+    virtual int run() = 0;
 
-	// Send an alert to the user in some manner
-	virtual void		alert(const string& msg) = 0;
+    // Send an alert to the user in some manner
+    virtual void alert(const string &msg) = 0;
 
-	// setters
-	virtual void		setRayTracer( RayTracer* r )
-		{ raytracer = r; }
+    // setters
+    virtual void setRayTracer(RayTracer *r) { raytracer = r; }
 
-	// accessors:
-	int		getSize() const { return m_nSize; }
-	int		getDepth() const { return m_nDepth; }
+    // accessors:
+    int getSize() const { return m_nSize; }
+    int getDepth() const { return m_nDepth; }
 
-protected:
-	RayTracer*	raytracer;
+  protected:
+    RayTracer *raytracer;
 
-	int			m_nSize;				// Size of the traced image
-	int			m_nDepth;				// Max depth of recursion
+    int m_nSize;  // Size of the traced image
+    int m_nDepth; // Max depth of recursion
 
-	// Determines whether or not to show debugging information
-	// for individual rays.  Disabled by default for efficiency
-	// reasons.
-	bool		m_displayDebuggingInfo;
+    // Determines whether or not to show debugging information
+    // for individual rays.  Disabled by default for efficiency
+    // reasons.
+    bool m_displayDebuggingInfo;
 
+  public:
+    bool getBSPEnabled() const { return m_bsp_enabled_value; }
 
-
-public:
-	bool		getBSPEnabled() const { return m_bsp_enabled_value; }
-
-protected:
-	bool		m_bsp_enabled_value;
-
-
+  protected:
+    bool m_bsp_enabled_value;
 };
 
 #endif

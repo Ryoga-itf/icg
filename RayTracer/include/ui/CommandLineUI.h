@@ -9,22 +9,19 @@
 
 #include "TraceUI.h"
 
+class CommandLineUI : public TraceUI {
+  public:
+    CommandLineUI(int argc, char **argv);
+    int run();
 
-class CommandLineUI 
-	: public TraceUI
-{
-public:
-	CommandLineUI( int argc, char** argv );
-	int		run();
+    void alert(const string &msg);
 
-	void		alert( const string& msg );
+  private:
+    void usage();
 
-private:
-	void		usage();
-
-	char*	rayName;
-	char*	imgName;
-	char*	progName;
+    char *rayName;
+    char *imgName;
+    char *progName;
 };
 
 #endif
