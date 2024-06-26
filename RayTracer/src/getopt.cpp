@@ -18,8 +18,8 @@
 // the standard getops() on Linux.
 //
 
-#include <stdio.h>
 #include <ctype.h>
+#include <stdio.h>
 #include <string.h>
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -53,118 +53,88 @@
 //
 ///////////////////////////////////////////////////////////////////////////////
 
-char* optarg = NULL;
+char *optarg = NULL;
 int optind, opterr, optopt;
 
-int GetOption (
-    int argc,
-    char** argv,
-    char* pszValidOpts,
-    char** ppszParam)
-{
+int GetOption(int argc, char **argv, char *pszValidOpts, char **ppszParam) {
     static int iArg = 1;
     char chOpt;
-    char* psz = NULL;
-    char* pszParam = NULL;
+    char *psz = NULL;
+    char *pszParam = NULL;
 
-    if (iArg < argc)
-    {
+    if (iArg < argc) {
         psz = &(argv[iArg][0]);
-        if (*psz == '-' || *psz == '/')
-        {
+        if (*psz == '-' || *psz == '/') {
             // we have an option specifier
             chOpt = argv[iArg][1];
-            if (isalnum(chOpt) || ispunct(chOpt))
-            {
+            if (isalnum(chOpt) || ispunct(chOpt)) {
                 // we have an option character
                 psz = strchr(pszValidOpts, chOpt);
-                if (psz != NULL)
-                {
+                if (psz != NULL) {
                     // option is valid, we want to return chOpt
-                    if (psz[1] == ':')
-                    {
+                    if (psz[1] == ':') {
                         // option can have a parameter
                         psz = &(argv[iArg][2]);
-                        if (*psz == '\0')
-                        {
+                        if (*psz == '\0') {
                             // must look at next argv for param
-                            if (iArg+1 < argc)
-                            {
-                                psz = &(argv[iArg+1][0]);
-                                if (*psz == '-' || *psz == '/')
-                                {
+                            if (iArg + 1 < argc) {
+                                psz = &(argv[iArg + 1][0]);
+                                if (*psz == '-' || *psz == '/') {
                                     // next argv is a new option, so param
                                     // not given for current option
-                                }
-                                else
-                                {
+                                } else {
                                     // next argv is the param
                                     iArg++;
                                     pszParam = psz;
                                 }
-                            }
-                            else
-                            {
+                            } else {
                                 // reached end of args looking for param
                             }
 
-                        }
-                        else
-                        {
+                        } else {
                             // param is attached to option
                             pszParam = psz;
                         }
-                    }
-                    else
-                    {
+                    } else {
                         // option is alone, has no parameter
                     }
-                }
-                else
-                {
+                } else {
                     // option specified is not in list of valid options
                     chOpt = -1;
                     pszParam = &(argv[iArg][0]);
                 }
-            }
-            else
-            {
+            } else {
                 // though option specifier was given, option character
                 // is not alpha or was was not specified
                 chOpt = -1;
                 pszParam = &(argv[iArg][0]);
             }
-        }
-        else
-        {
+        } else {
             // standalone arg given with no option specifier
             chOpt = 1;
             pszParam = &(argv[iArg][0]);
         }
-    }
-    else
-    {
+    } else {
         // end of argument list
         chOpt = 0;
     }
 
     iArg++;
     *ppszParam = pszParam;
-	optind = iArg-1;
+    optind = iArg - 1;
     return (chOpt);
 }
 
-int getopt(int argc, char **argv, char *optstring)
-{
-	int i;
-	
-	i = GetOption(argc, argv, optstring, &optarg);
+int getopt(int argc, char **argv, char *optstring) {
+    int i;
 
-	if (i==0 || i==1) return EOF;
-	else if (i==-1) {
-		char c=*(optarg+1);
-		return c;
-	}
-	else return i;
+    i = GetOption(argc, argv, optstring, &optarg);
+
+    if (i == 0 || i == 1)
+        return EOF;
+    else if (i == -1) {
+        char c = *(optarg + 1);
+        return c;
+    } else
+        return i;
 }
-			
