@@ -44,19 +44,31 @@ char *Trimesh::doubleCheck()
 
 // Calculates and returns the normal of the triangle too.
 bool TrimeshFace::intersectLocal(const ray &r, isect &i) const {
-    // YOUR CODE HERE:
-    // Add triangle intersection code here.
-    // it currently ignores all triangles and just return false.
-    //
-    // Note that you are only intersecting a single triangle, and the vertices
-    // of the triangle are supplied to you by the trimesh class.
-    //
-    // You should retrieve the vertices using code like this:
-    //
-    // const Vec3d& a = parent->vertices[ids[0]];
-    // const Vec3d& b = parent->vertices[ids[1]];
-    // const Vec3d& c = parent->vertices[ids[2]];
+    const auto p = r.getPosition();
+    const auto d = r.getDirection();
+    const auto &alpha = parent->vertices[ids[0]];
+    const auto &beta = parent->vertices[ids[1]];
+    const auto &gamma = parent->vertices[ids[2]];
+    auto normal = ((beta - alpha) ^ (gamma - alpha));
 
+    normal.normalize();
+
+    const auto t = (normal * alpha - normal * p) / (normal * d);
+    if (t < RAY_EPSILON) {
+        return false;
+    }
+
+    const auto Q = r.at(t);
+    const auto a1 = (beta - alpha) ^ (Q - alpha);
+    const auto a2 = (gamma - beta) ^ (Q - beta);
+    const auto a3 = (alpha - gamma) ^ (Q - gamma);
+    if ((std::abs(a1 * a2 - a1.length() * a2.length()) < RAY_EPSILON) and
+        (std::abs(a2 * a3 - a2.length() * a3.length()) < RAY_EPSILON)) {
+        i.obj = this;
+        i.t = t;
+        i.N = normal;
+        return true;
+    }
     return false;
 }
 
