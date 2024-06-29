@@ -1,5 +1,6 @@
 // The main ray tracer.
 
+#include <utility>
 #pragma warning(disable : 4786)
 
 #include "RayTracer.h"
@@ -11,7 +12,6 @@
 #include "parser/Tokenizer.h"
 
 #include "ui/TraceUI.h"
-#include <algorithm>
 #include <cmath>
 
 extern TraceUI *traceUI;
@@ -45,29 +45,55 @@ Vec3d RayTracer::trace(double x, double y) {
 // Do recursive ray tracing!  You'll want to insert a lot of code here
 // (or places called from here) to handle reflection, refraction, etc etc.
 Vec3d RayTracer::traceRay(const ray &r, const Vec3d &thresh, int depth) {
-    isect i;
+    if (isect i; scene->intersect(r, i)) {
+        const auto &m = i.getMaterial();
+        auto ret = m.shade(scene, r, i);
 
-    if (scene->intersect(r, i)) {
-        // YOUR CODE HERE
+        if (depth < traceUI->getDepth()) {
+            const auto kr = m.kr(i);
+            const auto kt = m.kt(i);
+            auto d = r.getDirection();
+            d.normalize();
 
-        // An intersection occured!  We've got work to do.  For now,
-        // this code gets the material for the surface that was intersected,
-        // and asks that material to provide a color for the ray.
+            auto norm = i.N;
+            double n1 = 1;
+            double n2 = m.index(i);
+            if (d * i.N > 0.0) {
+                norm *= -1;
+                std::swap(n1, n2);
+            }
 
-        // This is a great place to insert code for recursive ray tracing.
-        // Instead of just returning the result of shade(), add some
-        // more steps: add in the contributions from reflected and refracted
-        // rays.
+            const double nm = n2 / n1;
 
-        const Material &m = i.getMaterial();
+            const auto din = r.getDirection();
+            Vec3d rd = 2.0 * (norm * (-din * norm) / (din.length() * norm.length())) + din;
+            rd.normalize();
+            // reflection
+            if (!kr.iszero()) {
 
-        return m.shade(scene, r, i);
+                const ray rr(r.at(i.t - RAY_EPSILON), rd, ray::REFLECTION);
+                const auto reflect = traceRay(rr, thresh, depth + 1);
+                ret += prod(kr, reflect);
+            }
 
+            // transmission
+
+            if (!kt.iszero()) {
+                const auto dd = -(i.N * d) * i.N + d;
+                auto td = -norm + dd / sqrt(nm * nm - dd.length2());
+                td.normalize();
+
+                const auto rr = (dd.length() > nm ? ray(r.at(i.t - RAY_EPSILON), rd, ray::REFLECTION)
+                                                  : ray(r.at(i.t + RAY_EPSILON), td, ray::REFRACTION));
+                const auto transmit = traceRay(rr, thresh, depth + 1);
+                ret += prod(kt, transmit);
+            }
+        }
+        return ret;
     } else {
         // No intersection.  This ray travels to infinity, so we color
         // it according to the background color, which in this (simple) case
         // is just black.
-
         return Vec3d(0.0, 0.0, 0.0);
     }
 }
