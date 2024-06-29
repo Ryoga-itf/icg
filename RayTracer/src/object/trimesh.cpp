@@ -30,7 +30,7 @@ bool Trimesh::addFace(int a, int b, int c) {
     return true;
 }
 
-char *Trimesh::doubleCheck()
+const char *Trimesh::doubleCheck()
 // Check to make sure that if we have per-vertex materials or normals
 // they are the right number.
 {
