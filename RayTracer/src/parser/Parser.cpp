@@ -11,8 +11,6 @@
 
 using namespace std;
 
-template <typename T> std::unique_ptr<T> wrap_unique_ptr(T *pointer) { return unique_ptr<T>(pointer); }
-
 Scene *Parser::parseScene() {
     _tokenizer.Read(SBT_RAYTRACER);
 
