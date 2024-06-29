@@ -397,6 +397,12 @@ template <class T> class Vec3 {
         n[2] /= len;
     }
 
+    Vec3<T> normalized() const {
+        const double len = length();
+        assert(len != 0);
+        return Vec3<T>(n[0] / len, n[1] / len, n[2] / len);
+    }
+
     void clamp() {
         /*		n[0] = max(0.0, min((double)n[0], 1.0));
                 n[1] = max(0.0, min((double)n[1], 1.0));
@@ -413,7 +419,7 @@ template <class T> class Vec3 {
 
     //---[ Zero Test ]---------------------------
 
-    bool iszero() { return ((n[0] == 0 && n[1] == 0 && n[2] == 0) ? true : false); };
+    bool iszero() const { return ((n[0] == 0 && n[1] == 0 && n[2] == 0) ? true : false); };
     void zeroElements() { memset(n, 0, sizeof(T) * 3); }
 
     //---[ OpenGL Methods ]----------------------
