@@ -28,7 +28,7 @@ Vec3d Material::shade(Scene *scene, const ray &r, const isect &i) const {
         rj.normalize();
 
         const auto lc = pLight->getColor(r.at(i.t));
-        const auto atten = pLight->distanceAttenuation(r.at(i.t)) * Vec3d(1.0, 1.0, 1.0);
+        const auto atten = pLight->distanceAttenuation(r.at(i.t)) * pLight->shadowAttenuation(r.at(i.t));
 
         // diffuse color
         const auto ldf = kd(i) * std::max(n * ld, 0.0);
