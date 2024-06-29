@@ -1,9 +1,6 @@
+#include "object/Box.h"
 #include <assert.h>
 #include <cmath>
-
-#include "object/Box.h"
-
-using namespace std;
 
 const double HUGE_DOUBLE = 1e100;
 

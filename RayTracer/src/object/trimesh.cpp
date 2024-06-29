@@ -20,7 +20,7 @@ void Trimesh::addNormal(const Vec3d &n) { normals.push_back(n); }
 bool Trimesh::addFace(int a, int b, int c) {
     int vcnt = vertices.size();
 
-    if (a >= vcnt || b >= vcnt || c >= vcnt) {
+    if (a >= vcnt or b >= vcnt or c >= vcnt) {
         return false;
     }
 
@@ -50,9 +50,7 @@ bool TrimeshFace::intersectLocal(const ray &r, isect &i) const {
     const auto &alpha = parent->vertices[ids[0]];
     const auto &beta = parent->vertices[ids[1]];
     const auto &gamma = parent->vertices[ids[2]];
-    auto normal = ((beta - alpha) ^ (gamma - alpha));
-
-    normal.normalize();
+    const auto normal = ((beta - alpha) ^ (gamma - alpha)).normalized();
 
     const auto t = (normal * alpha - normal * p) / (normal * d);
     if (t < RAY_EPSILON) {
@@ -82,12 +80,10 @@ void Trimesh::generateNormals() {
     std::memset(numFaces, 0, sizeof(int) * cnt);
 
     for (Faces::iterator fi = faces.begin(); fi != faces.end(); ++fi) {
-        Vec3d a = vertices[(**fi)[0]];
-        Vec3d b = vertices[(**fi)[1]];
-        Vec3d c = vertices[(**fi)[2]];
-
-        Vec3d faceNormal = ((b - a) ^ (c - a));
-        faceNormal.normalize();
+        const auto a = vertices[(**fi)[0]];
+        const auto b = vertices[(**fi)[1]];
+        const auto c = vertices[(**fi)[2]];
+        const auto faceNormal = ((b - a) ^ (c - a)).normalized();
 
         for (int i = 0; i < 3; ++i) {
             normals[(**fi)[i]] += faceNormal;

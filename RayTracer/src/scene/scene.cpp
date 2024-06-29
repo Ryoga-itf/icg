@@ -1,7 +1,6 @@
 #include <cmath>
 
 #include "scene/BSPTree.h"
-#include "scene/light.h"
 #include "scene/scene.h"
 #include "ui/TraceUI.h"
 extern TraceUI *traceUI;
@@ -158,9 +157,8 @@ bool Scene::intersect(const ray &r, isect &i) const {
         }
     } else // go over the BSP tree's objects without using the BSP tree to do so (SLOW)
     {
-        for (iter j = boundedobjects.begin(); j != boundedobjects.end(); ++j) {
-            isect cur;
-            if ((*j)->intersect(r, cur)) {
+        for (const auto &j : boundedobjects) {
+            if (isect cur; j->intersect(r, cur)) {
                 if (!have_one || (cur.t < i.t)) {
                     i = cur;
                     have_one = true;

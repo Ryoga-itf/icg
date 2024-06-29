@@ -52,8 +52,7 @@ Vec3d RayTracer::traceRay(const ray &r, const Vec3d &thresh, int depth) {
         if (depth < traceUI->getDepth()) {
             const auto kr = m.kr(i);
             const auto kt = m.kt(i);
-            auto d = r.getDirection();
-            d.normalize();
+            const auto d = r.getDirection().normalized();
 
             auto norm = i.N;
             double n1 = 1;
@@ -66,11 +65,10 @@ Vec3d RayTracer::traceRay(const ray &r, const Vec3d &thresh, int depth) {
             const double nm = n2 / n1;
 
             const auto din = r.getDirection();
-            Vec3d rd = 2.0 * (norm * (-din * norm) / (din.length() * norm.length())) + din;
-            rd.normalize();
+            const auto rd = (2.0 * (norm * (-din * norm) / (din.length() * norm.length())) + din).normalized();
+
             // reflection
             if (!kr.iszero()) {
-
                 const ray rr(r.at(i.t - RAY_EPSILON), rd, ray::REFLECTION);
                 const auto reflect = traceRay(rr, thresh, depth + 1);
                 ret += prod(kr, reflect);
@@ -80,9 +78,7 @@ Vec3d RayTracer::traceRay(const ray &r, const Vec3d &thresh, int depth) {
 
             if (!kt.iszero()) {
                 const auto dd = -(i.N * d) * i.N + d;
-                auto td = -norm + dd / sqrt(nm * nm - dd.length2());
-                td.normalize();
-
+                const auto td = (-norm + dd / sqrt(nm * nm - dd.length2())).normalized();
                 const auto rr = (dd.length() > nm ? ray(r.at(i.t - RAY_EPSILON), rd, ray::REFLECTION)
                                                   : ray(r.at(i.t + RAY_EPSILON), td, ray::REFRACTION));
                 const auto transmit = traceRay(rr, thresh, depth + 1);

@@ -17,15 +17,11 @@ Vec3d Material::shade(Scene *scene, const ray &r, const isect &i) const {
     for (auto litr = scene->beginLights(); litr != scene->endLights(); litr++) {
         const auto *pLight = *litr;
 
-        auto ld = pLight->getDirection(r.at(i.t));
-        auto n = i.N;
-        auto v = -r.getDirection();
-        ld.normalize();
-        n.normalize();
-        v.normalize();
+        const auto ld = pLight->getDirection(r.at(i.t)).normalized();
+        const auto n = i.N.normalized();
+        const auto v = -r.getDirection().normalized();
 
-        auto rj = 2.0 * (n * (ld * n) / (ld.length() * n.length())) - ld;
-        rj.normalize();
+        const auto rj = (2.0 * (n * (ld * n) / (ld.length() * n.length())) - ld).normalized();
 
         const auto lc = pLight->getColor(r.at(i.t));
         const auto atten = pLight->distanceAttenuation(r.at(i.t)) * pLight->shadowAttenuation(r.at(i.t));

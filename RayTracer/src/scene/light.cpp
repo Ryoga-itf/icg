@@ -11,8 +11,7 @@ double DirectionalLight::distanceAttenuation(const Vec3d &P) const {
 }
 
 Vec3d DirectionalLight::shadowAttenuation(const Vec3d &P) const {
-    auto d = getDirection(P);
-    d.normalize();
+    const auto d = getDirection(P).normalized();
     const ray r(P, d, ray::SHADOW);
     if (isect i; getScene()->intersect(r, i)) {
         return Vec3d(0.0, 0.0, 0.0);
@@ -46,8 +45,7 @@ Vec3d PointLight::getDirection(const Vec3d &P) const {
 }
 
 Vec3d PointLight::shadowAttenuation(const Vec3d &P) const {
-    auto d = getDirection(P);
-    d.normalize();
+    const auto d = getDirection(P).normalized();
     const ray r(P, d, ray::SHADOW);
     const auto dv = position - P;
     const auto dist = dv.length();

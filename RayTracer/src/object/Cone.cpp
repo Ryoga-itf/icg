@@ -1,8 +1,5 @@
-#include <cmath>
-
 #include "object/Cone.h"
-
-using namespace std;
+#include <cmath>
 
 bool Cone::intersectLocal(const ray &r, isect &i) const {
     bool ret = false;
@@ -10,28 +7,30 @@ bool Cone::intersectLocal(const ray &r, isect &i) const {
 
     Vec3d normal;
 
-    Vec3d R0 = r.getPosition();
-    Vec3d Rd = r.getDirection();
-    double pz = R0[2];
-    double dz = Rd[2];
+    const Vec3d R0 = r.getPosition();
+    const Vec3d Rd = r.getDirection();
+    const double pz = R0[2];
+    const double dz = Rd[2];
 
-    double a = Rd[x] * Rd[x] + Rd[y] * Rd[y] - beta_squared * Rd[z] * Rd[z];
+    const double a = Rd[x] * Rd[x] + Rd[y] * Rd[y] - beta_squared * Rd[z] * Rd[z];
 
-    if (a == 0.0)
+    if (a == 0.0) {
         return false; // We're in the x-y plane, no intersection
+    }
 
-    double b = 2 * (R0[x] * Rd[x] + R0[y] * Rd[y] - beta_squared * ((R0[z] + gamma) * Rd[z]));
-    double c = -beta_squared * (gamma + R0[z]) * (gamma + R0[z]) + R0[x] * R0[x] + R0[y] * R0[y];
+    const double b = 2 * (R0[x] * Rd[x] + R0[y] * Rd[y] - beta_squared * ((R0[z] + gamma) * Rd[z]));
+    const double c = -beta_squared * (gamma + R0[z]) * (gamma + R0[z]) + R0[x] * R0[x] + R0[y] * R0[y];
 
     double discriminant = b * b - 4 * a * c;
 
     double farRoot, nearRoot, theRoot = RAY_EPSILON;
     bool farGood, nearGood;
 
-    if (discriminant <= 0)
+    if (discriminant <= 0) {
         return false; // No intersection
+    }
 
-    discriminant = sqrt(discriminant);
+    discriminant = std::sqrt(discriminant);
 
     // We have two roots, so calculate them
     nearRoot = (-b + discriminant) / (2 * a);
@@ -53,17 +52,16 @@ bool Cone::intersectLocal(const ray &r, isect &i) const {
     // In case we are _inside_ the _uncapped_ cone, we need to flip the normal.
     // Essentially, the cone in this case is a double-sided surface
     // and has _2_ normals
-    if (!capped && (normal * r.getDirection()) > 0)
+    if (!capped && (normal * r.getDirection()) > 0) {
         normal = -normal;
-
-    // These are to help with finding caps
-    double t1 = (-pz) / dz;
-    double t2 = (height - pz) / dz;
-
-    Vec3d p(r.at(t1));
+    }
 
     if (capped) {
-        if (p[0] * p[0] + p[1] * p[1] <= b_radius * b_radius) {
+        // These are to help with finding caps
+        const double t1 = (-pz) / dz;
+        const double t2 = (height - pz) / dz;
+
+        if (const Vec3d p(r.at(t1)); p[0] * p[0] + p[1] * p[1] <= b_radius * b_radius) {
             if (t1 < theRoot && t1 > RAY_EPSILON) {
                 theRoot = t1;
                 if (dz > 0.0) {
@@ -74,8 +72,7 @@ bool Cone::intersectLocal(const ray &r, isect &i) const {
                 }
             }
         }
-        Vec3d q(r.at(t2));
-        if (q[0] * q[0] + q[1] * q[1] <= t_radius * t_radius) {
+        if (const Vec3d q(r.at(t2)); q[0] * q[0] + q[1] * q[1] <= t_radius * t_radius) {
             if (t2 < theRoot && t2 > RAY_EPSILON) {
                 theRoot = t2;
                 if (dz > 0.0) {
@@ -88,8 +85,9 @@ bool Cone::intersectLocal(const ray &r, isect &i) const {
         }
     }
 
-    if (theRoot <= RAY_EPSILON)
+    if (theRoot <= RAY_EPSILON) {
         return false;
+    }
 
     i.setT(theRoot);
     normal.normalize();
@@ -100,9 +98,4 @@ bool Cone::intersectLocal(const ray &r, isect &i) const {
     return ret;
 }
 
-bool Cone::isGoodRoot(Vec3d root) const {
-
-    if (root[2] < 0 || root[2] > height)
-        return false;
-    return true;
-}
+bool Cone::isGoodRoot(Vec3d root) const { return !(root[2] < 0 || root[2] > height); }

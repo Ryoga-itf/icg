@@ -1,6 +1,5 @@
-#include <cmath>
-
 #include "object/Sphere.h"
+#include <cmath>
 
 bool Sphere::intersectLocal(const ray &r, isect &i) const {
     const auto p = r.getPosition();
