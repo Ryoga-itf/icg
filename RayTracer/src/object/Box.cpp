@@ -1,29 +1,26 @@
 #include "object/Box.h"
 #include <assert.h>
 #include <cmath>
-
-const double HUGE_DOUBLE = 1e100;
+#include <limits>
 
 bool Box::intersectLocal(const ray &r, isect &i) const {
+    const auto p = r.getPosition();
+    const auto d = r.getDirection();
 
-    Vec3d p = r.getPosition();
-    Vec3d d = r.getDirection();
-
-    int it;
     double x, y, t, bestT;
     int mod0, mod1, mod2, bestIndex;
 
-    bestT = HUGE_DOUBLE;
+    bestT = std::numeric_limits<double>().max();
     bestIndex = -1;
 
-    for (it = 0; it < 6; it++) {
+    for (int it = 0; it < 6; it++) {
         mod0 = it % 3;
 
         if (d[mod0] == 0) {
             continue;
         }
 
-        t = ((it / 3.0) - 0.5 - p[mod0]) / d[mod0];
+        t = (static_cast<double>(int(it / 3)) - 0.5 - p[mod0]) / d[mod0];
 
         if (t < RAY_EPSILON || t > bestT) {
             continue;
@@ -42,16 +39,16 @@ bool Box::intersectLocal(const ray &r, isect &i) const {
         }
     }
 
-    if (bestIndex < 0)
+    if (bestIndex < 0) {
         return false;
+    }
 
     i.setT(bestT);
     i.setObject(this);
 
-    Vec3d intersect_point = r.at((float)i.t);
-
-    int i1 = (bestIndex + 1) % 3;
-    int i2 = (bestIndex + 2) % 3;
+    const auto intersect_point = r.at((float)i.t);
+    const auto i1 = (bestIndex + 1) % 3;
+    const auto i2 = (bestIndex + 2) % 3;
 
     if (bestIndex < 3) {
         i.setN(Vec3d(-double(bestIndex == 0), -double(bestIndex == 1), -double(bestIndex == 2)));
