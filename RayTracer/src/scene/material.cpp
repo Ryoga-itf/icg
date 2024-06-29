@@ -3,6 +3,7 @@
 #include "scene/ray.h"
 
 #include "fileio/imageio.h"
+#include <algorithm>
 
 using namespace std;
 extern bool debugMode;
@@ -10,35 +11,34 @@ extern bool debugMode;
 // Apply the Phong model to this point on the surface of the object, returning
 // the color of that point.
 Vec3d Material::shade(Scene *scene, const ray &r, const isect &i) const {
-    // YOUR CODE HERE
+    auto lum = ke(i) + prod(ka(i), scene->ambient());
+    const auto v = -r.getDirection();
 
-    // For now, this method just returns the diffuse color of the object.
-    // This gives a single matte color for every distinct surface in the
-    // scene, and that's it.  Simple, but enough to get you started.
-    // (It's also inconsistent with the Phong model...)
+    for (auto litr = scene->beginLights(); litr != scene->endLights(); litr++) {
+        const auto *pLight = *litr;
 
-    // Your mission is to fill in this method with the rest of the phong
-    // shading model, including the contributions of all the light sources.
-    // You will need to call both distanceAttenuation() and shadowAttenuation()
-    // somewhere in your code in order to compute shadows and light falloff.
-    if (debugMode)
-        std::cout << "Debugging the Phong code (or lack thereof...)" << std::endl;
+        auto ld = pLight->getDirection(r.at(i.t));
+        auto n = i.N;
+        auto v = -r.getDirection();
+        ld.normalize();
+        n.normalize();
+        v.normalize();
 
-    // When you're iterating through the lights,
-    // you'll want to use code that looks something
-    // like this:
-    //
-    // for ( vector<Light*>::const_iterator litr = scene->beginLights();
-    // 		litr != scene->endLights();
-    // 		++litr )
-    // {
-    // 		Light* pLight = *litr;
-    // 		.
-    // 		.
-    // 		.
-    // }
+        auto rj = ld + 2 * (n * (ld * n) / (ld.length() * n.length()) - ld);
+        rj.normalize();
 
-    return kd(i);
+        const auto lc = pLight->getColor(r.at(i.t));
+        const auto atten = pLight->distanceAttenuation(r.at(i.t)) * Vec3d(1.0, 1.0, 1.0);
+
+        // diffuse color
+        const auto ldf = kd(i) * std::max(n * ld, 0.0);
+
+        // specular color
+        const auto lsp = ks(i) * std::pow(std::max(v * rj, 0.0), shininess(i));
+
+        lum += prod(atten, prod(lc, ldf + lsp));
+    }
+    return lum;
 }
 
 TextureMap::TextureMap(string filename) {
