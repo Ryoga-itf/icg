@@ -50,7 +50,7 @@ void Tokenizer::ScanProgram() {
         ;
 }
 
-auto_ptr<Token> Tokenizer::Get() { return auto_ptr<Token>(GetNext()); }
+std::unique_ptr<Token> Tokenizer::Get() { return std::unique_ptr<Token>(GetNext()); }
 
 //////////////////////////////////////////////////////////////////////////
 //
@@ -303,8 +303,8 @@ const Token *Tokenizer::Peek() {
 //   Read gets the next token and checks that it's of the expected type.
 //
 
-auto_ptr<Token> Tokenizer::Read(SYMBOL kind) {
-    auto_ptr<Token> T(Get());
+std::unique_ptr<Token> Tokenizer::Read(SYMBOL kind) {
+    std::unique_ptr<Token> T(Get());
     if (T->kind() != kind) {
         string msg(getNameForToken(kind));
         msg.append(" expected, ");

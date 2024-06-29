@@ -11,7 +11,6 @@
 // Needed to correct for annoying "feature" in MSVC's compiler
 #pragma warning(disable : 4786)
 
-using std::auto_ptr;
 using std::istream;
 using std::string;
 
@@ -33,13 +32,13 @@ class Tokenizer {
     Tokenizer(istream &fp, bool printTokens);
 
     // destructively read & return the next token, skipping over whitespace
-    auto_ptr<Token> Get();
+    std::unique_ptr<Token> Get();
 
     // non-destructively get the next token, pushing it back to be read again
     const Token *Peek();
 
     // Get() the next token, and check that it's of the expected SYMBOL type
-    auto_ptr<Token> Read(SYMBOL expected);
+    std::unique_ptr<Token> Read(SYMBOL expected);
 
     // read the next token only if it matches the expected token type.
     // Return whether it matches.

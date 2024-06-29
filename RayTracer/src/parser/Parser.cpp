@@ -12,12 +12,12 @@
 
 using namespace std;
 
-template <typename T> auto_ptr<T> wrap_auto_ptr(T *pointer) { return auto_ptr<T>(pointer); }
+template <typename T> std::unique_ptr<T> wrap_unique_ptr(T *pointer) { return unique_ptr<T>(pointer); }
 
 Scene *Parser::parseScene() {
     _tokenizer.Read(SBT_RAYTRACER);
 
-    auto_ptr<Token> versionNumber(_tokenizer.Read(SCALAR));
+    std::unique_ptr<Token> versionNumber(_tokenizer.Read(SCALAR));
 
     if (versionNumber->value() > 1.1) {
         ostringstream ost;
@@ -27,7 +27,7 @@ Scene *Parser::parseScene() {
     }
 
     Scene *scene = new Scene;
-    auto_ptr<Material> mat(new Material);
+    std::unique_ptr<Material> mat(new Material);
 
     for (;;) {
         const Token *t = _tokenizer.Peek();
@@ -59,8 +59,8 @@ Scene *Parser::parseScene() {
             parseCamera(scene);
             break;
         case MATERIAL: {
-            auto_ptr<Material> temp(parseMaterialExpression(scene, *mat));
-            mat = temp;
+            std::unique_ptr<Material> temp(parseMaterialExpression(scene, *mat));
+            mat = std::move(temp);
         } break;
         case SEMICOLON:
             _tokenizer.Read(SEMICOLON);
@@ -174,7 +174,7 @@ void Parser::parseTransformableElement(Scene *scene, TransformNode *transform, c
 
 // parse a group of geometry, i.e., enclosed in {} blocks.
 void Parser::parseGroup(Scene *scene, TransformNode *transform, const Material &mat) {
-    auto_ptr<Material> newMat;
+    std::unique_ptr<Material> newMat;
     _tokenizer.Read(LBRACE);
     for (;;) {
         const Token *t = _tokenizer.Peek();
@@ -196,8 +196,8 @@ void Parser::parseGroup(Scene *scene, TransformNode *transform, const Material &
             _tokenizer.Read(RBRACE);
             return;
         case MATERIAL: {
-            auto_ptr<Material> temp(parseMaterialExpression(scene, mat));
-            newMat = temp;
+            std::unique_ptr<Material> temp(parseMaterialExpression(scene, mat));
+            newMat = std::move(temp);
         }
         default:
             throw SyntaxErrorException("Expected: '}' or geometry", _tokenizer);
@@ -508,7 +508,7 @@ void Parser::parseTrimesh(Scene *scene, TransformNode *transform, const Material
     bool generateNormals(false);
     list<Vec3d> faces;
 
-    char *error;
+    const char *error;
     for (;;) {
         const Token *t = _tokenizer.Peek();
 
@@ -813,13 +813,13 @@ string Parser::parseIdentExpression() {
 }
 
 double Parser::parseScalar() {
-    auto_ptr<Token> scalar(_tokenizer.Read(SCALAR));
+    std::unique_ptr<Token> scalar(_tokenizer.Read(SCALAR));
 
     return scalar->value();
 }
 
 string Parser::parseIdent() {
-    auto_ptr<Token> scalar(_tokenizer.Read(IDENT));
+    std::unique_ptr<Token> scalar(_tokenizer.Read(IDENT));
 
     return scalar->ident();
 }
@@ -858,11 +858,11 @@ bool Parser::parseBoolean() {
 
 Vec3d Parser::parseVec3d() {
     _tokenizer.Read(LPAREN);
-    auto_ptr<Token> value1(_tokenizer.Read(SCALAR));
+    std::unique_ptr<Token> value1(_tokenizer.Read(SCALAR));
     _tokenizer.Read(COMMA);
-    auto_ptr<Token> value2(_tokenizer.Read(SCALAR));
+    std::unique_ptr<Token> value2(_tokenizer.Read(SCALAR));
     _tokenizer.Read(COMMA);
-    auto_ptr<Token> value3(_tokenizer.Read(SCALAR));
+    std::unique_ptr<Token> value3(_tokenizer.Read(SCALAR));
     _tokenizer.Read(RPAREN);
 
     return Vec3d(value1->value(), value2->value(), value3->value());
@@ -870,13 +870,13 @@ Vec3d Parser::parseVec3d() {
 
 Vec4d Parser::parseVec4d() {
     _tokenizer.Read(LPAREN);
-    auto_ptr<Token> value1(_tokenizer.Read(SCALAR));
+    std::unique_ptr<Token> value1(_tokenizer.Read(SCALAR));
     _tokenizer.Read(COMMA);
-    auto_ptr<Token> value2(_tokenizer.Read(SCALAR));
+    std::unique_ptr<Token> value2(_tokenizer.Read(SCALAR));
     _tokenizer.Read(COMMA);
-    auto_ptr<Token> value3(_tokenizer.Read(SCALAR));
+    std::unique_ptr<Token> value3(_tokenizer.Read(SCALAR));
     _tokenizer.Read(COMMA);
-    auto_ptr<Token> value4(_tokenizer.Read(SCALAR));
+    std::unique_ptr<Token> value4(_tokenizer.Read(SCALAR));
     _tokenizer.Read(RPAREN);
 
     return Vec4d(value1->value(), value2->value(), value3->value(), value4->value());

@@ -8,7 +8,6 @@
 
 #include <iostream>
 
-using std::endl;
 using std::ostream;
 using std::ostringstream;
 
