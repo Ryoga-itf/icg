@@ -24,7 +24,7 @@ Vec3d Material::shade(Scene *scene, const ray &r, const isect &i) const {
         n.normalize();
         v.normalize();
 
-        auto rj = ld + 2 * (n * (ld * n) / (ld.length() * n.length()) - ld);
+        auto rj = 2.0 * (n * (ld * n) / (ld.length() * n.length())) - ld;
         rj.normalize();
 
         const auto lc = pLight->getColor(r.at(i.t));
