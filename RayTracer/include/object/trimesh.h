@@ -37,7 +37,7 @@ class Trimesh : public MaterialSceneObject {
 
     bool addFace(int a, int b, int c);
 
-    const char *doubleCheck();
+    const char *doubleCheck() const;
 
     void generateNormals();
 
