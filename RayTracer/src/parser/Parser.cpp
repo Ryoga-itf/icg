@@ -1,6 +1,5 @@
 #pragma warning(disable : 4786)
 
-#include <fstream>
 #include <iostream>
 #include <memory>
 #include <sstream>

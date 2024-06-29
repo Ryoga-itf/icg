@@ -1,12 +1,10 @@
 #pragma warning(disable : 4786)
 
 #include "parser/Token.h"
-#include <stdio.h>
-
+#include <cstdio>
+#include <iostream>
 #include <map>
 #include <sstream>
-
-#include <iostream>
 
 using std::ostream;
 using std::ostringstream;

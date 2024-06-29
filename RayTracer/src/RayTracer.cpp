@@ -19,8 +19,6 @@ extern TraceUI *traceUI;
 #include <fstream>
 #include <iostream>
 
-using namespace std;
-
 // Use this variable to decide if you want to print out
 // debugging messages.  Gets set in the "trace single ray" mode
 // in TraceGLWindow, for example.
@@ -78,7 +76,7 @@ Vec3d RayTracer::traceRay(const ray &r, const Vec3d &thresh, int depth) {
 
             if (!kt.iszero()) {
                 const auto dd = -(i.N * d) * i.N + d;
-                const auto td = (-norm + dd / sqrt(nm * nm - dd.length2())).normalized();
+                const auto td = (-norm + dd / std::sqrt(nm * nm - dd.length2())).normalized();
                 const auto rr = (dd.length() > nm ? ray(r.at(i.t - RAY_EPSILON), rd, ray::REFLECTION)
                                                   : ray(r.at(i.t + RAY_EPSILON), td, ray::REFRACTION));
                 const auto transmit = traceRay(rr, thresh, depth + 1);
@@ -110,20 +108,21 @@ void RayTracer::getBuffer(unsigned char *&buf, int &w, int &h) {
 double RayTracer::aspectRatio() { return sceneLoaded() ? scene->getCamera().getAspectRatio() : 1; }
 
 bool RayTracer::loadScene(char *fn) {
-    ifstream ifs(fn);
+    std::ifstream ifs(fn);
     if (!ifs) {
-        string msg("Error: couldn't read scene file ");
+        std::string msg("Error: couldn't read scene file ");
         msg.append(fn);
         traceUI->alert(msg);
         return false;
     }
 
     // Strip off filename, leaving only the path:
-    string path(fn);
-    if (path.find_last_of("\\/") == string::npos)
+    std::string path(fn);
+    if (path.find_last_of("\\/") == std::string::npos) {
         path = ".";
-    else
+    } else {
         path = path.substr(0, path.find_last_of("\\/"));
+    }
 
     // Call this with 'true' for debug output from the tokenizer
     Tokenizer tokenizer(ifs, false);
@@ -136,19 +135,20 @@ bool RayTracer::loadScene(char *fn) {
         traceUI->alert(pe.formattedMessage());
         return false;
     } catch (ParserException &pe) {
-        string msg("Parser: fatal exception ");
+        std::string msg("Parser: fatal exception ");
         msg.append(pe.message());
         traceUI->alert(msg);
         return false;
     } catch (TextureMapException e) {
-        string msg("Texture mapping exception: ");
+        std::string msg("Texture mapping exception: ");
         msg.append(e.message());
         traceUI->alert(msg);
         return false;
     }
 
-    if (!sceneLoaded())
+    if (!sceneLoaded()) {
         return false;
+    }
 
     // Initialize the scene's BSP tree
     scene->initBSPTree();
@@ -165,20 +165,19 @@ void RayTracer::traceSetup(int w, int h) {
         delete[] buffer;
         buffer = new unsigned char[bufferSize];
     }
-    memset(buffer, 0, w * h * 3);
+    std::memset(buffer, 0, w * h * 3);
     m_bBufferReady = true;
 }
 
 void RayTracer::tracePixel(int i, int j) {
-    Vec3d col;
-
-    if (!sceneLoaded())
+    if (!sceneLoaded()) {
         return;
+    }
 
     double x = double(i) / double(buffer_width);
     double y = double(j) / double(buffer_height);
 
-    col = trace(x, y);
+    const auto col = trace(x, y);
 
     unsigned char *pixel = buffer + (i + j * buffer_width) * 3;
 
