@@ -1,8 +1,11 @@
-#include <cmath>
-
-#include "scene/BSPTree.h"
 #include "scene/scene.h"
+#include "scene/BSPTree.h"
+#include "scene/light.h"
 #include "ui/TraceUI.h"
+#include <cmath>
+#include <limits>
+#include <utility>
+
 extern TraceUI *traceUI;
 
 using namespace std;
@@ -31,57 +34,62 @@ bool BoundingBox::intersects(const Vec3d &point) const {
 // in tMax and return true, else return false.
 // Using Kay/Kajiya algorithm.
 bool BoundingBox::intersect(const ray &r, double &tMin, double &tMax) const {
-    Vec3d R0 = r.getPosition();
-    Vec3d Rd = r.getDirection();
+    const auto R0 = r.getPosition();
+    const auto Rd = r.getDirection();
 
-    tMin = -1.0e308; // 1.0e308 is close to infinity... close enough for us!
-    tMax = 1.0e308;
+    tMin = std::numeric_limits<double>().lowest();
+    tMax = std::numeric_limits<double>().max();
     double ttemp;
 
     for (int currentaxis = 0; currentaxis < 3; currentaxis++) {
-        double vd = Rd[currentaxis];
+        const double vd = Rd[currentaxis];
 
         // if the ray is parallel to the face's plane (=0.0)
         if (vd == 0.0) {
-            if (R0[currentaxis] < min[currentaxis] || R0[currentaxis] > max[currentaxis])
+            if (R0[currentaxis] < min[currentaxis] || R0[currentaxis] > max[currentaxis]) {
                 return false;
+            }
             continue;
         }
 
-        double v1 = min[currentaxis] - R0[currentaxis];
-        double v2 = max[currentaxis] - R0[currentaxis];
+        const double v1 = min[currentaxis] - R0[currentaxis];
+        const double v2 = max[currentaxis] - R0[currentaxis];
 
         // two slab intersections
         double t1 = v1 / vd;
         double t2 = v2 / vd;
 
-        if (t1 > t2) { // swap t1 & t2
-            ttemp = t1;
-            t1 = t2;
-            t2 = ttemp;
+        if (t1 > t2) {
+            std::swap(t1, t2);
         }
 
-        if (t1 > tMin)
+        if (t1 > tMin) {
             tMin = t1;
-        if (t2 < tMax)
+        }
+        if (t2 < tMax) {
             tMax = t2;
+        }
 
-        if (tMin > tMax) // box is missed
+        if (tMin > tMax) {
+            // box is missed
             return false;
-        if (tMax < RAY_EPSILON) // box is behind ray
+        }
+        if (tMax < RAY_EPSILON) {
+            // box is behind ray
             return false;
+        }
     }
     return true; // it made it past all 3 axes.
 }
 
 bool Geometry::intersect(const ray &r, isect &i) const {
     // Transform the ray into the object's local coordinate space
-    Vec3d pos = transform->globalToLocalCoords(r.getPosition());
-    Vec3d dir = transform->globalToLocalCoords(r.getPosition() + r.getDirection()) - pos;
-    double length = dir.length();
+    const auto pos = transform->globalToLocalCoords(r.getPosition());
+    auto dir = transform->globalToLocalCoords(r.getPosition() + r.getDirection()) - pos;
+    const auto length = dir.length();
     dir /= length;
 
-    ray localRay(pos, dir, r.type());
+    const ray localRay(pos, dir, r.type());
 
     if (intersectLocal(localRay, i)) {
         // Transform the intersection point & normal returned back into global space.
@@ -108,37 +116,31 @@ bool Geometry::hasBoundingBoxCapability() const {
 }
 
 Scene::~Scene() {
-    giter g;
-    liter l;
-    tmap::iterator t;
-
-    for (g = objects.begin(); g != objects.end(); ++g) {
+    for (auto g = objects.begin(); g != objects.end(); ++g) {
         delete (*g);
     }
 
-    for (l = lights.begin(); l != lights.end(); ++l) {
+    for (auto l = lights.begin(); l != lights.end(); ++l) {
         delete (*l);
     }
 
-    for (t = textureCache.begin(); t != textureCache.end(); t++) {
+    for (auto t = textureCache.begin(); t != textureCache.end(); t++) {
         delete (*t).second;
     }
 
-    if (pBSPTree)
+    if (pBSPTree) {
         delete pBSPTree;
+    }
 }
 
 // Get any intersection with an object.  Return information about the
 // intersection through the reference parameter.
 bool Scene::intersect(const ray &r, isect &i) const {
-    typedef vector<Geometry *>::const_iterator iter;
-
     bool have_one = false;
 
     // try the non-bounded objects
-    for (iter j = nonboundedobjects.begin(); j != nonboundedobjects.end(); ++j) {
-        isect cur;
-        if ((*j)->intersect(r, cur)) {
+    for (const auto &j : nonboundedobjects) {
+        if (isect cur; j->intersect(r, cur)) {
             if (!have_one || (cur.t < i.t)) {
                 i = cur;
                 have_one = true;
@@ -148,15 +150,14 @@ bool Scene::intersect(const ray &r, isect &i) const {
 
     // try the BSP tree
     if (traceUI->getBSPEnabled()) {
-        isect cur;
-        if (((BSPTree *)pBSPTree)->intersect(r, cur)) {
+        if (isect cur; ((BSPTree *)pBSPTree)->intersect(r, cur)) {
             if (!have_one || (cur.t < i.t)) {
                 i = cur;
                 have_one = true;
             }
         }
-    } else // go over the BSP tree's objects without using the BSP tree to do so (SLOW)
-    {
+    } else {
+        // go over the BSP tree's objects without using the BSP tree to do so (SLOW)
         for (const auto &j : boundedobjects) {
             if (isect cur; j->intersect(r, cur)) {
                 if (!have_one || (cur.t < i.t)) {
@@ -167,46 +168,47 @@ bool Scene::intersect(const ray &r, isect &i) const {
         }
     }
 
-    if (!have_one)
+    if (!have_one) {
         i.setT(1000.0);
+    }
 
     // if debugging,
-    intersectCache.push_back(std::make_pair(r, i));
+    intersectCache.emplace_back(r, i);
 
     return have_one;
 }
 
 void Scene::initBSPTree() {
-    const unsigned short maxTreeDepth = 13;
-    const unsigned long maxChildrenPerNode = 5;
+    constexpr unsigned short maxTreeDepth = 13;
+    constexpr unsigned long maxChildrenPerNode = 5;
     bool first_boundedobject = true;
     BoundingBox b;
     pBSPTree = new BSPTree();
 
-    typedef vector<Geometry *>::const_iterator iter;
     // split the objects into two categories: bounded and non-bounded
-    for (iter j = objects.begin(); j != objects.end(); ++j) {
-        if ((*j)->hasBoundingBoxCapability()) {
-            boundedobjects.push_back(*j);
+    for (const auto &j : objects) {
+        if (j->hasBoundingBoxCapability()) {
+            boundedobjects.push_back(j);
 
             // widen the scene's bounding box, if necessary
             if (first_boundedobject) {
-                sceneBounds = (*j)->getBoundingBox();
+                sceneBounds = j->getBoundingBox();
                 first_boundedobject = false;
             } else {
-                b = (*j)->getBoundingBox();
+                b = j->getBoundingBox();
                 sceneBounds.max = maximum(sceneBounds.max, b.max);
                 sceneBounds.min = minimum(sceneBounds.min, b.min);
             }
-        } else
-            nonboundedobjects.push_back(*j);
+        } else {
+            nonboundedobjects.push_back(j);
+        }
     }
 
     ((BSPTree *)pBSPTree)->initialize(&boundedobjects, maxTreeDepth, maxChildrenPerNode, sceneBounds);
 }
 
 TextureMap *Scene::getTexture(string name) {
-    tmap::const_iterator itr = textureCache.find(name);
+    const auto itr = textureCache.find(name);
     if (itr == textureCache.end()) {
         textureCache[name] = new TextureMap(name);
         return textureCache[name];
