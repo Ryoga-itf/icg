@@ -8,8 +8,6 @@
 
 extern TraceUI *traceUI;
 
-using namespace std;
-
 void BoundingBox::operator=(const BoundingBox &target) {
     min = target.min;
     max = target.max;

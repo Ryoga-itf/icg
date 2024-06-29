@@ -5,7 +5,6 @@
 #include "fileio/imageio.h"
 #include <algorithm>
 
-using namespace std;
 extern bool debugMode;
 
 // Apply the Phong model to this point on the surface of the object, returning
@@ -66,30 +65,35 @@ Vec3d TextureMap::getMappedValue(const Vec2d &coord) const {
 Vec3d TextureMap::getPixelAt(int x, int y) const {
     // This keeps it from crashing if it can't load
     // the texture, but the person tries to render anyway.
-    if (0 == data)
+    if (0 == data) {
         return Vec3d(1.0, 1.0, 1.0);
+    }
 
-    if (x >= width)
+    if (x >= width) {
         x = width - 1;
-    if (y >= height)
+    }
+    if (y >= height) {
         y = height - 1;
+    }
 
     // Find the position in the big data array...
-    int pos = (y * width + x) * 3;
+    const int pos = (y * width + x) * 3;
     return Vec3d(double(data[pos]) / 255.0, double(data[pos + 1]) / 255.0, double(data[pos + 2]) / 255.0);
 }
 
 Vec3d MaterialParameter::value(const isect &is) const {
-    if (0 != _textureMap)
+    if (0 != _textureMap) {
         return _textureMap->getMappedValue(is.uvCoordinates);
-    else
+    } else {
         return _value;
+    }
 }
 
 double MaterialParameter::intensityValue(const isect &is) const {
     if (0 != _textureMap) {
-        Vec3d value(_textureMap->getMappedValue(is.uvCoordinates));
+        const Vec3d value(_textureMap->getMappedValue(is.uvCoordinates));
         return (0.299 * value[0]) + (0.587 * value[1]) + (0.114 * value[2]);
-    } else
+    } else {
         return (0.299 * _value[0]) + (0.587 * _value[1]) + (0.114 * _value[2]);
+    }
 }
