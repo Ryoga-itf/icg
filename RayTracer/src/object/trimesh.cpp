@@ -63,13 +63,13 @@ bool TrimeshFace::intersectLocal(const ray &r, isect &i) const {
     const auto a1 = (beta - alpha) ^ (Q - alpha);
     const auto a2 = (gamma - beta) ^ (Q - beta);
     const auto a3 = (alpha - gamma) ^ (Q - gamma);
-    if ((std::abs(a1 * a2 - a1.length() * a2.length()) < RAY_EPSILON) and
-        (std::abs(a2 * a3 - a2.length() * a3.length()) < RAY_EPSILON)) {
+    if (a1 * a2 > 0 and a2 * a3 > 0 and a3 * a1 > 0) {
         i.obj = this;
         i.t = t;
         i.N = normal;
         return true;
     }
+
     return false;
 }
 
