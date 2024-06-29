@@ -39,7 +39,6 @@ bool BoundingBox::intersect(const ray &r, double &tMin, double &tMax) const {
 
     tMin = std::numeric_limits<double>().lowest();
     tMax = std::numeric_limits<double>().max();
-    double ttemp;
 
     for (int currentaxis = 0; currentaxis < 3; currentaxis++) {
         const double vd = Rd[currentaxis];
@@ -119,11 +118,9 @@ Scene::~Scene() {
     for (auto g = objects.begin(); g != objects.end(); ++g) {
         delete (*g);
     }
-
     for (auto l = lights.begin(); l != lights.end(); ++l) {
         delete (*l);
     }
-
     for (auto t = textureCache.begin(); t != textureCache.end(); t++) {
         delete (*t).second;
     }
