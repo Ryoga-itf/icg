@@ -11,7 +11,11 @@
 #include "animator.h"
 #include "controller.h"
 #include "modelerdraw.h"
+#ifdef __APPLE__
+#include <OpenGL/gl.h>
+#else
 #include <GL/gl.h>
+#endif
 #include <cmath>
 #include <cstdlib>
 #include <utility>

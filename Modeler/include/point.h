@@ -29,12 +29,12 @@ class Point {
 std::ostream &operator<<(std::ostream &output_stream, const Animator::Point &point);
 std::istream &operator>>(std::istream &input_stream, Animator::Point &point);
 
-class PointSmallerXCompare : public std::binary_function<const Point &, const Point &, bool> {
+class PointSmallerXCompare {
   public:
     bool operator()(const Point &first, const Point &second) const;
 };
 
-class PointLargerXCompare : public std::binary_function<const Point &, const Point &, bool> {
+class PointLargerXCompare {
   public:
     bool operator()(const Point &first, const Point &second) const;
 };

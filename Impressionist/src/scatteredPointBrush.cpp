@@ -8,7 +8,11 @@
 #include "scatteredPointBrush.h"
 #include "impressionistDoc.h"
 #include "impressionistUI.h"
+#ifdef __APPLE__
+#include <OpenGL/gl.h>
+#else
 #include <GL/gl.h>
+#endif
 #include <cstdlib>
 
 extern float frand();

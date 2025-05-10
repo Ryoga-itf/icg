@@ -4,7 +4,11 @@
 
 #include <FL/Fl.H>
 #include <FL/gl.h>
+#ifdef __APPLE__
+#include <OpenGL/glu.h>
+#else
 #include <GL/glu.h>
+#endif
 
 #pragma warning(disable : 4244)
 

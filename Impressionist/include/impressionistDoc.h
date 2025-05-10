@@ -22,7 +22,7 @@ class ImpressionistDoc {
     int saveImage(char *iname); // called by the UI to save image
 
     int clearCanvas();       // called by the UI to clear the drawing canvas
-    int copyImageToCanvas(); // ‚R‰ñ–ÚÀK@FilterKernel
+    int copyImageToCanvas(); // ï¿½Rï¿½ï¿½Úï¿½ï¿½Kï¿½@FilterKernel
 
     void applyFilter(const unsigned char *sourceBuffer, // The filter kernel
                      int srcBufferWidth, int srcBufferHeight, unsigned char *destBuffer, const double *filterKernel,
@@ -37,7 +37,7 @@ class ImpressionistDoc {
     // get the UI angle
     void setSize(int size); // set the UI size
 
-    // ÀK
+    // ï¿½ï¿½ï¿½K
 
     char *getImageName(); // get the current image name
 

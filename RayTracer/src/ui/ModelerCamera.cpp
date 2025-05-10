@@ -3,7 +3,11 @@
 #endif
 
 #include <FL/gl.h>
+#ifdef __APPLE__
+#include <OpenGL/glu.h>
+#else
 #include <GL/glu.h>
+#endif
 
 // We include these files from modeler so that we can
 // display the rendered image in OpenGL -- for debugging
